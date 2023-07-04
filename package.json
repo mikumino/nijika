@@ -19,5 +19,8 @@
   "homepage": "https://github.com/mikumino/mukou#readme",
   "dependencies": {
     "discord.js": "^14.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.44.0"
   }
 }
