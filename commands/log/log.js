@@ -97,6 +97,7 @@ module.exports = {
                     .setCustomId('sourceDescription')
                     .setLabel('Description')
                     .setStyle(TextInputStyle.Paragraph);
+                    
 
                 const firstAction = new ActionRowBuilder().addComponents(sourceTitle);
                 const secondAction = new ActionRowBuilder().addComponents(sourceDescription);
@@ -111,8 +112,8 @@ module.exports = {
                 
                 if (sourceConfirmation) {
                     // Extract fields from modal submission and assign to variables
-                    const title = sourceConfirmation.fields.getField('sourceTitle').value;
-                    const description = sourceConfirmation.fields.getField('sourceDescription').value;
+                    const title = sourceConfirmation.fields.getTextInputValue('sourceTitle');
+                    const description = sourceConfirmation.fields.getTextInputValue('sourceDescription');
                     sourceConfirmation.update({ content: `Title: ${title}\nDescription: ${description}`, components: [] }); // temp line, handle submission
                 }
             }
