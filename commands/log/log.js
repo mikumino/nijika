@@ -87,8 +87,9 @@ module.exports = {
                     await typeConfirmation.update({ content: 'Book selected', components: [] });
                 }
             }
-            else if (confirmation.customId === 'oneTimeSource') {
-                const one_time_menu = new ModalBuilder()
+            else if (confirmation.values[0] === 'oneTimeSource') {
+                console.log("enter else if.")
+                const oneTimeMenu = new ModalBuilder()
                     .setCustomId('oneTimeModal')
                     .setTitle('One Time Source');
                     
@@ -101,6 +102,12 @@ module.exports = {
                     .setLabel('Description')
                     .setStyle(TextInputStyle.Paragraph);
 
+                const firstActionOneTime = new ActionRowBuilder().addComponents(oneTimeTitle);
+                const secondActionOneTime = new ActionRowBuilder().addComponents(oneTimeDescription);
+
+                oneTimeMenu.addComponents(oneTimeTitle, oneTimeDescription);
+
+                await interaction.showModal(oneTimeMenu);
                 
             }
         } catch (e) {
