@@ -37,10 +37,13 @@ module.exports = {
 
         try {
             console.log('DEBUG');
+            // Wait for user to select an option
             const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 150000 });
-            if (confirmation.values[0] === 'createSource') {
+
+            // If user selects createSource, create a new source
+            if (confirmation.values[0] === 'createSource') {    // values[0] because only one option can be selected
                 console.log("createSource");
-                // Edit select menu to let user select a content type
+                // Build menu for selecting content type
                 const select_content_type = new StringSelectMenuBuilder()
                     .setCustomId('contentType')
                     .setPlaceholder('Make a selection!')
@@ -70,11 +73,12 @@ module.exports = {
                             .setLabel('Other')
                             .setValue('other')
                     )
-
+                // Build action row for menu
                 const row2 = new ActionRowBuilder()
                     .addComponents(select_content_type);
                 console.log("fuck");
-                await interaction.editReply({
+                // 
+                await confirmation.update({
                     content: 'Select the type of content you are logging.',
                     components: [row2],
                 });
