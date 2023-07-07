@@ -31,12 +31,12 @@ module.exports = {
             content: 'Select a previous immersion source, or create a new / temporary one.',
             components: [row],
         });
-
+        
         const collectorFilter = i => i.user.id === interaction.user.id;
 
         try {
             // Wait for user to select an option
-            const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 150000 });
+            const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 15000 });
 
             // If user selects createSource, create a new source
             if (confirmation.values[0] === 'createSource') {    // values[0] because only one option can be selected
@@ -135,14 +135,34 @@ module.exports = {
                     .setCustomId('oneTimeDescription')
                     .setLabel('Description')
                     .setStyle(TextInputStyle.Paragraph);
+                const oneTimeTime = new TextInputBuilder()
+                    .setCustomId('oneTimeTime')
+                    .setLabel('Time (in minutes)')
+                    .setStyle(TextInputStyle.Short)
 
                 const firstActionOneTime = new ActionRowBuilder().addComponents(oneTimeTitle);
                 const secondActionOneTime = new ActionRowBuilder().addComponents(oneTimeDescription);
+                const thridActionOneTime = new ActionRowBuilder().addComponents(oneTimeTime);
 
-                oneTimeMenu.addComponents(firstActionOneTime, secondActionOneTime);
+                oneTimeMenu.addComponents(firstActionOneTime, secondActionOneTime, thridActionOneTime);
 
                 await confirmation.showModal(oneTimeMenu);
+
+                const oneTimeConfirmation = await confirmation.awaitModalSubmit({ filter: collectorFilter, time: 30000 });
                 
+                if (oneTimeConfirmation) {
+                    // Extract fields from modal submission and assign to variables
+                    const title = oneTimeConfirmation.fields.getTextInputValue('oneTimeTitle');
+                    const description = oneTimeConfirmation.fields.getTextInputValue('oneTimeDescription');
+                    const time = oneTimeConfirmation.fields.getTextInputValue('oneTimeTime')
+                    oneTimeConfirmation.update({ content: `Source "${title}" for ${time} minutes was successfully logged!`, components: [] });
+                    // TODO: Add source to database (content type, title, description)
+                }
+                
+            }
+
+            else {
+                // Handle user's sources
             }
         } catch (e) {
             console.log(e);
