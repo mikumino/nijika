@@ -1,4 +1,4 @@
-const { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, TextInputStyle, Events, ModalBuilder, TextInputBuilder } = require('discord.js');
+const { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, TextInputStyle, Events, ModalBuilder, TextInputBuilder, ModalSubmitFields } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -85,7 +85,6 @@ module.exports = {
                 // Assign content type to variable
                 const contentType = typeConfirmation.values[0];
 
-
                 // Build modal for user to input title and description
                 const sourceMenu = new ModalBuilder()
                     .setCustomId('sourceModal')
@@ -102,13 +101,22 @@ module.exports = {
                 const firstAction = new ActionRowBuilder().addComponents(sourceTitle);
                 const secondAction = new ActionRowBuilder().addComponents(sourceDescription);
 
-
                 sourceMenu.addComponents(firstAction, secondAction);
 
                 // Prompt user with modal
                 await typeConfirmation.showModal(sourceMenu);
 
+                // Wait for modal submission and assign values to variables
+                const sourceConfirmation = await typeConfirmation.awaitModalSubmit({ filter: collectorFilter, time: 900000 });
+                
+                if (sourceConfirmation) {
+                    // Extract fields from modal submission and assign to variables
+                    const title = sourceConfirmation.fields.getField('sourceTitle').value;
+                    const description = sourceConfirmation.fields.getField('sourceDescription').value;
+                    sourceConfirmation.update({ content: `Title: ${title}\nDescription: ${description}`, components: [] }); // temp line, handle submission
+                }
             }
+
             else if (confirmation.values[0] === 'oneTimeSource') {
                 console.log("enter else if.")
                 const oneTimeMenu = new ModalBuilder()
