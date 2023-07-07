@@ -1,4 +1,4 @@
-const { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, createMessageComponentCollector, Events, ModalBuilder, TextInputBuilder } = require('discord.js');
+const { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, TextInputStyle, Events, ModalBuilder, TextInputBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -27,7 +27,6 @@ module.exports = {
         const row = new ActionRowBuilder()
             .addComponents(select_source);
         
-        console.log('action row built');
         const response = await interaction.reply({
             content: 'Select a previous immersion source, or create a new / temporary one.',
             components: [row],
@@ -36,7 +35,6 @@ module.exports = {
         const collectorFilter = i => i.user.id === interaction.user.id;
 
         try {
-            console.log('DEBUG');
             // Wait for user to select an option
             const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 150000 });
 
@@ -76,27 +74,46 @@ module.exports = {
                 // Build action row for menu
                 const row2 = new ActionRowBuilder()
                     .addComponents(select_content_type);
-                console.log("fuck");
-                // 
+                // Update message to prompt user to select content type
                 await confirmation.update({
                     content: 'Select the type of content you are logging.',
                     components: [row2],
                 });
-                console.log(confirmation);
 
                 const typeConfirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 900000 });
 
-                if (typeConfirmation.values[0] === 'book') {
-                    // temp, edit message for confirmation
-                    await typeConfirmation.update({ content: 'Book selected', components: [] });
-                }
+                // Assign content type to variable
+                const contentType = typeConfirmation.values[0];
+
+
+                // Build modal for user to input title and description
+                const sourceMenu = new ModalBuilder()
+                    .setCustomId('sourceModal')
+                    .setTitle('New Source');
+                const sourceTitle = new TextInputBuilder()
+                    .setCustomId('sourceTitle')
+                    .setLabel('Title')
+                    .setStyle(TextInputStyle.Short);
+                const sourceDescription = new TextInputBuilder()
+                    .setCustomId('sourceDescription')
+                    .setLabel('Description')
+                    .setStyle(TextInputStyle.Paragraph);
+
+                const firstAction = new ActionRowBuilder().addComponents(sourceTitle);
+                const secondAction = new ActionRowBuilder().addComponents(sourceDescription);
+
+
+                sourceMenu.addComponents(firstAction, secondAction);
+
+                // Prompt user with modal
+                await typeConfirmation.showModal(sourceMenu);
+
             }
             else if (confirmation.values[0] === 'oneTimeSource') {
                 console.log("enter else if.")
                 const oneTimeMenu = new ModalBuilder()
                     .setCustomId('oneTimeModal')
                     .setTitle('One Time Source');
-                    
                 const oneTimeTitle = new TextInputBuilder()
                     .setCustomId('oneTimeTitle')
                     .setLabel('Title')
@@ -109,12 +126,13 @@ module.exports = {
                 const firstActionOneTime = new ActionRowBuilder().addComponents(oneTimeTitle);
                 const secondActionOneTime = new ActionRowBuilder().addComponents(oneTimeDescription);
 
-                oneTimeMenu.addComponents(oneTimeTitle, oneTimeDescription);
+                oneTimeMenu.addComponents(firstActionOneTime, secondActionOneTime);
 
-                await interaction.showModal(oneTimeMenu);
+                await confirmation.showModal(oneTimeMenu);
                 
             }
         } catch (e) {
+            console.log(e);
             await interaction.editReply({ content: 'Do you even really immerse??? :( I\'m impatient', components: [] });
         }
 
