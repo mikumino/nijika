@@ -80,10 +80,11 @@ module.exports = {
                     components: [row2],
                 });
 
-                const typeConfirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 900000 });
+                const typeConfirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 30000 });
 
                 // Assign content type to variable
                 const contentType = typeConfirmation.values[0];
+                console.log(contentType);
 
                 // Build modal for user to input title and description
                 const sourceMenu = new ModalBuilder()
@@ -108,7 +109,7 @@ module.exports = {
                 await typeConfirmation.showModal(sourceMenu);
 
                 // Wait for modal submission and assign values to variables
-                const sourceConfirmation = await typeConfirmation.awaitModalSubmit({ filter: collectorFilter, time: 900000 });
+                const sourceConfirmation = await typeConfirmation.awaitModalSubmit({ filter: collectorFilter, time: 30000 });
                 
                 if (sourceConfirmation) {
                     // Extract fields from modal submission and assign to variables
@@ -117,8 +118,10 @@ module.exports = {
                     sourceConfirmation.update({ content: `Source "${title}" successfully created!`, components: [] });
                     // TODO: Add source to database (content type, title, description)
                 }
+
             }
 
+            // User chooses to create a one time source
             else if (confirmation.values[0] === 'oneTimeSource') {
                 console.log("enter else if.")
                 const oneTimeMenu = new ModalBuilder()
