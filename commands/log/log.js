@@ -114,7 +114,8 @@ module.exports = {
                     // Extract fields from modal submission and assign to variables
                     const title = sourceConfirmation.fields.getTextInputValue('sourceTitle');
                     const description = sourceConfirmation.fields.getTextInputValue('sourceDescription');
-                    sourceConfirmation.update({ content: `Title: ${title}\nDescription: ${description}`, components: [] }); // temp line, handle submission
+                    sourceConfirmation.update({ content: `Source "${title}" successfully created!`, components: [] });
+                    // TODO: Add source to database (content type, title, description)
                 }
             }
 
