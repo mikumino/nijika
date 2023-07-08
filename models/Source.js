@@ -1,11 +1,12 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database');
+const User = require('./User');
 
 const Source = sequelize.define('Source', {
-    sourceId: {
-        type: DataTypes.STRING,
-        allowNull: false,
+    sourceId : {
+        type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
     },
     sourceName: {
         type: DataTypes.STRING,
@@ -28,5 +29,10 @@ const Source = sequelize.define('Source', {
         defaultValue: false,
     },
 });
+
+// Associations
+User.hasMany(Source, { foreignKey: 'userId' });
+
+Source.belongsTo(User, { foreignKey: 'userId' });
 
 module.exports = Source;

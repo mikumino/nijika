@@ -3,8 +3,21 @@ const path = require('node:path')
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 const sequelize = require('./database');
+const User = require('./models/User'); // idk if these are where they should be but they work
+const Source = require('./models/Source');
+const Log = require('./models/Log');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+// Sync database
+(async () => {
+    try {
+        await sequelize.sync();
+        console.log('Database synced.');
+    } catch (error) {
+        console.error('Error syncing database:', error);
+    }
+})();
 
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
@@ -37,14 +50,6 @@ for (const file of eventFiles) {
 	}
 }
 
-// Sync database
-(async () => {
-    try {
-        await sequelize.sync({ force: true });
-        console.log('Database synced.');
-    } catch (error) {
-        console.error('Error syncing database:', error);
-    }
-})();
+
 
 client.login(token);
