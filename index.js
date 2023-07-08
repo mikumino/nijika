@@ -2,6 +2,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
+const sequelize = require('./database');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -35,5 +36,15 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args));
 	}
 }
+
+// Sync database
+(async () => {
+    try {
+        await sequelize.sync({ force: true });
+        console.log('Database synced.');
+    } catch (error) {
+        console.error('Error syncing database:', error);
+    }
+})();
 
 client.login(token);
