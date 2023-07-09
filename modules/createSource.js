@@ -44,6 +44,14 @@ module.exports = {
             // Get or create user
             const [user, created] = await User.findOrCreate({ where: { userId: typeConfirmation.user.id } });
 
+            // Check that user hasn't already created a source with the same title
+            const existingSource = await Source.findOne({ where: { sourceName: title, userId: user.userId } });
+
+            if (existingSource) {
+                sourceConfirmation.update({ content: `Source "${title}" already exists!`, components: [] });
+                return;
+            }
+
             // Create source
             const source = await Source.create({ sourceName: title, sourceDescription: description, sourceType: contentType, userId: user.userId });
 
