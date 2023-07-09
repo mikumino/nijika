@@ -40,13 +40,19 @@ module.exports = {
             // Extract fields from modal submission and assign to variables
             const title = oneTimeConfirmation.fields.getTextInputValue('oneTimeTitle');
             const description = oneTimeConfirmation.fields.getTextInputValue('oneTimeDescription');
-            const time = oneTimeConfirmation.fields.getTextInputValue('oneTimeTime')
+            const duration = oneTimeConfirmation.fields.getTextInputValue('oneTimeTime')
 
             // Get or create user
             const [user, created] = await User.findOrCreate({ where: { userId: typeConfirmation.user.id } });
 
+            // Create one time source
+            const source = await Source.create({ sourceName: title, sourceDescription: description, sourceType: contentType, userId: user.userId, oneTime: true });
+
+            // Create log
+            await Log.create({ duration: duration, sourceId: source.sourceId, userId: user.userId });
+
             // Send confirmation
-            oneTimeConfirmation.update({ content: `Source "${title}" for ${time} minutes was successfully logged!`, components: [] });
+            oneTimeConfirmation.update({ content: `Source "${title}" for ${duration} minutes was successfully logged!`, components: [] });
         }
 
     }
