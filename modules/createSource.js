@@ -2,7 +2,6 @@ const { ActionRowBuilder, ModalBuilder, StringSelectMenuBuilder, StringSelectMen
 
 module.exports = {
     async execute(confirmation, collectorFilter) {
-        console.log("createSource");
         // Build menu for selecting content type
         const select_content_type = new StringSelectMenuBuilder()
             .setCustomId('contentType')
@@ -10,28 +9,28 @@ module.exports = {
             .addOptions(
                 new StringSelectMenuOptionBuilder()
                     .setLabel('Book')
-                    .setValue('book'),
+                    .setValue('BOOK'),
                 new StringSelectMenuOptionBuilder()
                     .setLabel('Anime')
-                    .setValue('anime'),
+                    .setValue('ANIME'),
                 new StringSelectMenuOptionBuilder()
                     .setLabel('Manga')
-                    .setValue('manga'),
+                    .setValue('MANGA'),
                 new StringSelectMenuOptionBuilder()
                     .setLabel('Visual Novel')
-                    .setValue('vn'),
+                    .setValue('VN'),
                 new StringSelectMenuOptionBuilder()
                     .setLabel('Video Game')
-                    .setValue('game'),
+                    .setValue('GAME'),
                 new StringSelectMenuOptionBuilder()
                     .setLabel('Reading')
-                    .setValue('reading'),
+                    .setValue('READING'),
                 new StringSelectMenuOptionBuilder()
                     .setLabel('Listening')
-                    .setValue('listening'),
+                    .setValue('LISTENING'),
                 new StringSelectMenuOptionBuilder()
                     .setLabel('Other')
-                    .setValue('other')
+                    .setValue('OTHER')
             )
         // Build action row for menu
         const row2 = new ActionRowBuilder()
