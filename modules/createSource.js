@@ -53,7 +53,7 @@ module.exports = {
             }
 
             // Create source
-            const source = await Source.create({ sourceName: title, sourceDescription: description, sourceType: contentType, userId: user.userId });
+            await Source.create({ sourceName: title, sourceDescription: description, sourceType: contentType, userId: user.userId });
 
             sourceConfirmation.update({ content: `Source "${title}" successfully created!`, components: [] });
         }
