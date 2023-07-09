@@ -1,4 +1,5 @@
 const { ActionRowBuilder, ModalBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
+const promptContentType = require('./promptContentType');
 
 const User = require('../models/User');
 const Source = require('../models/Source');
@@ -6,49 +7,9 @@ const Source = require('../models/Source');
 module.exports = {
     async execute(confirmation, collectorFilter) {
         // Build menu for selecting content type
-        const select_content_type = new StringSelectMenuBuilder()
-            .setCustomId('contentType')
-            .setPlaceholder('Make a selection!')
-            .addOptions(
-                new StringSelectMenuOptionBuilder()
-                    .setLabel('Book')
-                    .setValue('BOOK'),
-                new StringSelectMenuOptionBuilder()
-                    .setLabel('Anime')
-                    .setValue('ANIME'),
-                new StringSelectMenuOptionBuilder()
-                    .setLabel('Manga')
-                    .setValue('MANGA'),
-                new StringSelectMenuOptionBuilder()
-                    .setLabel('Visual Novel')
-                    .setValue('VN'),
-                new StringSelectMenuOptionBuilder()
-                    .setLabel('Video Game')
-                    .setValue('GAME'),
-                new StringSelectMenuOptionBuilder()
-                    .setLabel('Reading')
-                    .setValue('READING'),
-                new StringSelectMenuOptionBuilder()
-                    .setLabel('Listening')
-                    .setValue('LISTENING'),
-                new StringSelectMenuOptionBuilder()
-                    .setLabel('Other')
-                    .setValue('OTHER')
-            )
-        // Build action row for menu
-        const row2 = new ActionRowBuilder()
-            .addComponents(select_content_type);
-        // Update message to prompt user to select content type
-        await confirmation.update({
-            content: 'Select the type of content you are logging.',
-            components: [row2],
-        });
+        typeConfirmation = await promptContentType.execute(confirmation, collectorFilter);
 
-        const typeConfirmation = await confirmation.message.awaitMessageComponent({ filter: collectorFilter, time: 30000 });
-
-        // Assign content type to variable
         const contentType = typeConfirmation.values[0];
-        console.log(contentType);
 
         // Build modal for user to input title and description
         const sourceMenu = new ModalBuilder()

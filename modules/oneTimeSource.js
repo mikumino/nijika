@@ -1,8 +1,12 @@
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js');
+const promptContentType = require('./promptContentType');
 
 module.exports = {
     async execute(confirmation, collectorFilter) {
-        // User chooses to create a one time source
+        // Build menu for selecting content type
+        typeConfirmation = await promptContentType.execute(confirmation, collectorFilter);
+        const contentType = typeConfirmation.values[0];
+
         const oneTimeMenu = new ModalBuilder()
             .setCustomId('oneTimeModal')
             .setTitle('One Time Source');
@@ -25,7 +29,7 @@ module.exports = {
 
         oneTimeMenu.addComponents(firstActionOneTime, secondActionOneTime, thridActionOneTime);
 
-        await confirmation.showModal(oneTimeMenu);
+        await typeConfirmation.showModal(oneTimeMenu);
 
         const oneTimeConfirmation = await confirmation.awaitModalSubmit({ filter: collectorFilter, time: 30000 });
 
