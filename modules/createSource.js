@@ -65,7 +65,7 @@ module.exports = {
                 embed
                     .setTitle('Source Created')
                     .setDescription(`Source "${title}" successfully created!`)
-                    .addFields(
+                    .setFields(
                         { name: 'Title', value: title, inline: true },
                         { name: 'Description', value: description, inline: true },
                         { name: 'Type', value: contentType, inline: true },

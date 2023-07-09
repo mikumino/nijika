@@ -1,5 +1,6 @@
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js');
 const promptContentType = require('./promptContentType');
+const embedEntryLog = require('./embedEntryLog');
 const User = require('../models/User');
 const Source = require('../models/Source');
 const Log = require('../models/Log');
@@ -50,14 +51,16 @@ module.exports = {
                 const source = await Source.create({ sourceName: title, sourceDescription: description, sourceType: contentType, userId: user.userId, oneTime: true, totalDuration: duration });
 
                 // Create log
-                await Log.create({ duration: duration, sourceId: source.sourceId, userId: user.userId });
+                const log = await Log.create({ duration: duration, sourceId: source.sourceId, userId: user.userId });
 
                 // Give user XP
                 user.XP += duration*2;
                 await user.save();
 
                 // Send confirmation
-                oneTimeConfirmation.update({ content: `Source "${title}" for ${duration} minutes was successfully logged!\n${typeConfirmation.user.username} gained ${duration*2} experience points! `, components: [] });
+                const embed = embedEntryLog.execute(log, source, typeConfirmation);
+
+                oneTimeConfirmation.update({ embeds: [embed], components: [] });
             }
         } catch (error) {
             console.error(error);
