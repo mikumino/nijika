@@ -46,13 +46,17 @@ module.exports = {
             const [user, created] = await User.findOrCreate({ where: { userId: typeConfirmation.user.id } });
 
             // Create one time source
-            const source = await Source.create({ sourceName: title, sourceDescription: description, sourceType: contentType, userId: user.userId, oneTime: true });
+            const source = await Source.create({ sourceName: title, sourceDescription: description, sourceType: contentType, userId: user.userId, oneTime: true, totalDuration: duration });
 
             // Create log
             await Log.create({ duration: duration, sourceId: source.sourceId, userId: user.userId });
 
+            // Give user XP
+            user.XP += duration*2;
+            await user.save();
+
             // Send confirmation
-            oneTimeConfirmation.update({ content: `Source "${title}" for ${duration} minutes was successfully logged!`, components: [] });
+            oneTimeConfirmation.update({ content: `Source "${title}" for ${duration} minutes was successfully logged!\n${typeConfirmation.user.username} gained ${duration*2} experience points! `, components: [] });
         }
 
     }
