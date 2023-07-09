@@ -1,4 +1,4 @@
-const { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder } = require('discord.js');
+const { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 const createSource = require('../../modules/createSource');
 const oneTimeSource = require('../../modules/oneTimeSource');
@@ -8,6 +8,12 @@ module.exports = {
         .setName('log')
         .setDescription('Log info for immersion.'),
     async execute(interaction) {
+        // Build embed for initial prompt
+        const embed = new EmbedBuilder()
+            .setTitle('Immersion Tracker')
+            .setDescription('Select an existing source, or create a new/temporary one.')
+            .setThumbnail('https://cdn.discordapp.com/avatars/1125900859528712212/4ff91215c19043f95527d55c5b9cc491.webp?size=512&width=0&height=0'); // lol hardcoded
+
         // TODO: Get user id and pull titles for first menu
         const select_source = new StringSelectMenuBuilder()
             .setCustomId('Title')
@@ -31,7 +37,7 @@ module.exports = {
             .addComponents(select_source);
 
         const response = await interaction.reply({
-            content: 'Select a previous immersion source, or create a new / temporary one.',
+            embeds: [embed],
             components: [row],
         });
 
