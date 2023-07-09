@@ -1,5 +1,8 @@
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js');
 const promptContentType = require('./promptContentType');
+const User = require('../models/User');
+const Source = require('../models/Source');
+const Log = require('../models/Log');
 
 module.exports = {
     async execute(confirmation, collectorFilter) {
@@ -38,8 +41,12 @@ module.exports = {
             const title = oneTimeConfirmation.fields.getTextInputValue('oneTimeTitle');
             const description = oneTimeConfirmation.fields.getTextInputValue('oneTimeDescription');
             const time = oneTimeConfirmation.fields.getTextInputValue('oneTimeTime')
+
+            // Get or create user
+            const [user, created] = await User.findOrCreate({ where: { userId: typeConfirmation.user.id } });
+
+            // Send confirmation
             oneTimeConfirmation.update({ content: `Source "${title}" for ${time} minutes was successfully logged!`, components: [] });
-            // TODO: Add source to database (content type, title, description)
         }
 
     }

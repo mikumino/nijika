@@ -28,6 +28,10 @@ const Source = sequelize.define('Source', {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     },
+    oneTime: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
 });
 
 // Associations
