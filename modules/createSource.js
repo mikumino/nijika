@@ -45,13 +45,7 @@ module.exports = {
             const [user, created] = await User.findOrCreate({ where: { userId: typeConfirmation.user.id } });
 
             // Create source
-            try {
-                const source = await Source.create({ sourceName: title, sourceDescription: description, sourceType: contentType, userId: user.userId });
-            } catch (error) {
-                if (error.name === 'SequelizeUniqueConstraintError') {
-                    return sourceConfirmation.update({ content: `Source "${title}" already exists!`, components: [] });
-                }
-            }
+            const source = await Source.create({ sourceName: title, sourceDescription: description, sourceType: contentType, userId: user.userId });
 
             sourceConfirmation.update({ content: `Source "${title}" successfully created!`, components: [] });
         }
