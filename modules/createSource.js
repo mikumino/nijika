@@ -76,7 +76,7 @@ module.exports = {
             }
         } catch (error) {
             console.log(error);
-            confirmation.editReply({ content: 'Something went wrong!', components: [] });
+            confirmation.editReply({ content: 'No response given in the timeframe, canceling interaction', embeds: [], components: [] });
         }
     }
 }

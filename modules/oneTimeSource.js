@@ -6,58 +6,62 @@ const Log = require('../models/Log');
 
 module.exports = {
     async execute(confirmation, collectorFilter) {
-        // Build menu for selecting content type
-        typeConfirmation = await promptContentType.execute(confirmation, collectorFilter);
-        const contentType = typeConfirmation.values[0];
+        try {
+            // Build menu for selecting content type
+            typeConfirmation = await promptContentType.execute(confirmation, collectorFilter);
+            const contentType = typeConfirmation.values[0];
 
-        const oneTimeMenu = new ModalBuilder()
-            .setCustomId('oneTimeModal')
-            .setTitle('One Time Source');
-        const oneTimeTitle = new TextInputBuilder()
-            .setCustomId('oneTimeTitle')
-            .setLabel('Title')
-            .setStyle(TextInputStyle.Short);
-        const oneTimeDescription = new TextInputBuilder()
-            .setCustomId('oneTimeDescription')
-            .setLabel('Description')
-            .setStyle(TextInputStyle.Paragraph);
-        const oneTimeTime = new TextInputBuilder()
-            .setCustomId('oneTimeTime')
-            .setLabel('Time (in minutes)')
-            .setStyle(TextInputStyle.Short)
+            const oneTimeMenu = new ModalBuilder()
+                .setCustomId('oneTimeModal')
+                .setTitle('One Time Source');
+            const oneTimeTitle = new TextInputBuilder()
+                .setCustomId('oneTimeTitle')
+                .setLabel('Title')
+                .setStyle(TextInputStyle.Short);
+            const oneTimeDescription = new TextInputBuilder()
+                .setCustomId('oneTimeDescription')
+                .setLabel('Description')
+                .setStyle(TextInputStyle.Paragraph);
+            const oneTimeTime = new TextInputBuilder()
+                .setCustomId('oneTimeTime')
+                .setLabel('Time (in minutes)')
+                .setStyle(TextInputStyle.Short)
 
-        const firstActionOneTime = new ActionRowBuilder().addComponents(oneTimeTitle);
-        const secondActionOneTime = new ActionRowBuilder().addComponents(oneTimeDescription);
-        const thridActionOneTime = new ActionRowBuilder().addComponents(oneTimeTime);
+            const firstActionOneTime = new ActionRowBuilder().addComponents(oneTimeTitle);
+            const secondActionOneTime = new ActionRowBuilder().addComponents(oneTimeDescription);
+            const thridActionOneTime = new ActionRowBuilder().addComponents(oneTimeTime);
 
-        oneTimeMenu.addComponents(firstActionOneTime, secondActionOneTime, thridActionOneTime);
+            oneTimeMenu.addComponents(firstActionOneTime, secondActionOneTime, thridActionOneTime);
 
-        await typeConfirmation.showModal(oneTimeMenu);
+            await typeConfirmation.showModal(oneTimeMenu);
 
-        const oneTimeConfirmation = await confirmation.awaitModalSubmit({ filter: collectorFilter, time: 30000 });
+            const oneTimeConfirmation = await confirmation.awaitModalSubmit({ filter: collectorFilter, time: 30000 });
 
-        if (oneTimeConfirmation) {
-            // Extract fields from modal submission and assign to variables
-            const title = oneTimeConfirmation.fields.getTextInputValue('oneTimeTitle');
-            const description = oneTimeConfirmation.fields.getTextInputValue('oneTimeDescription');
-            const duration = oneTimeConfirmation.fields.getTextInputValue('oneTimeTime')
+            if (oneTimeConfirmation) {
+                // Extract fields from modal submission and assign to variables
+                const title = oneTimeConfirmation.fields.getTextInputValue('oneTimeTitle');
+                const description = oneTimeConfirmation.fields.getTextInputValue('oneTimeDescription');
+                const duration = oneTimeConfirmation.fields.getTextInputValue('oneTimeTime')
 
-            // Get or create user
-            const [user, created] = await User.findOrCreate({ where: { userId: typeConfirmation.user.id } });
+                // Get or create user
+                const [user, created] = await User.findOrCreate({ where: { userId: typeConfirmation.user.id } });
 
-            // Create one time source
-            const source = await Source.create({ sourceName: title, sourceDescription: description, sourceType: contentType, userId: user.userId, oneTime: true, totalDuration: duration });
+                // Create one time source
+                const source = await Source.create({ sourceName: title, sourceDescription: description, sourceType: contentType, userId: user.userId, oneTime: true, totalDuration: duration });
 
-            // Create log
-            await Log.create({ duration: duration, sourceId: source.sourceId, userId: user.userId });
+                // Create log
+                await Log.create({ duration: duration, sourceId: source.sourceId, userId: user.userId });
 
-            // Give user XP
-            user.XP += duration*2;
-            await user.save();
+                // Give user XP
+                user.XP += duration*2;
+                await user.save();
 
-            // Send confirmation
-            oneTimeConfirmation.update({ content: `Source "${title}" for ${duration} minutes was successfully logged!\n${typeConfirmation.user.username} gained ${duration*2} experience points! `, components: [] });
+                // Send confirmation
+                oneTimeConfirmation.update({ content: `Source "${title}" for ${duration} minutes was successfully logged!\n${typeConfirmation.user.username} gained ${duration*2} experience points! `, components: [] });
+            }
+        } catch (error) {
+            console.error(error);
+            confirmation.editReply({ content: 'No response given in the timeframe, canceling interaction.', embeds: [], components: [] });
         }
-
     }
 }
