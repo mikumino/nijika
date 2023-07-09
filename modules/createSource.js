@@ -1,5 +1,8 @@
 const { ActionRowBuilder, ModalBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 
+const User = require('../models/User');
+const Source = require('../models/Source');
+
 module.exports = {
     async execute(confirmation, collectorFilter) {
         // Build menu for selecting content type
@@ -76,8 +79,20 @@ module.exports = {
             // Extract fields from modal submission and assign to variables
             const title = sourceConfirmation.fields.getTextInputValue('sourceTitle');
             const description = sourceConfirmation.fields.getTextInputValue('sourceDescription');
+
+            // Get or create user
+            const [user, created] = await User.findOrCreate({ where: { userId: typeConfirmation.user.id } });
+
+            // Create source
+            try {
+                const source = await Source.create({ sourceName: title, sourceDescription: description, sourceType: contentType, userId: user.userId });
+            } catch (error) {
+                if (error.name === 'SequelizeUniqueConstraintError') {
+                    return sourceConfirmation.update({ content: `Source "${title}" already exists!`, components: [] });
+                }
+            }
+
             sourceConfirmation.update({ content: `Source "${title}" successfully created!`, components: [] });
-            // TODO: Add source to database (content type, title, description)
         }
     }
 }

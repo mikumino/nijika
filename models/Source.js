@@ -11,6 +11,7 @@ const Source = sequelize.define('Source', {
     sourceName: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
     },
     sourceDescription: {
         type: DataTypes.STRING,

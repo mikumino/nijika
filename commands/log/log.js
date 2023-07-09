@@ -48,7 +48,6 @@ module.exports = {
 
             // User chooses to create a one time source
             else if (confirmation.values[0] === 'oneTimeSource') {
-                console.log("enter else if.")
                 oneTimeSource.execute(confirmation, collectorFilter);
             }
 
