@@ -3,6 +3,8 @@ const { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder
 const createSource = require('../../modules/createSource');
 const oneTimeSource = require('../../modules/oneTimeSource');
 
+const Source = require('../../models/Source');
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('log')
@@ -15,24 +17,34 @@ module.exports = {
             .setThumbnail('https://cdn.discordapp.com/avatars/1125900859528712212/4ff91215c19043f95527d55c5b9cc491.webp?size=512&width=0&height=0') // lol hardcoded
             .setColor('#ffe17e');
 
-        // TODO: Get user id and pull titles for first menu
+        // Get all sources from userId that are not completed nor one time
+        const sources = await Source.findAll({ where: { userId: interaction.user.id, completed: false, oneTime: false } });
+        // console.log(sources);
+
         const select_source = new StringSelectMenuBuilder()
             .setCustomId('Title')
-            .setPlaceholder('Make a selection!')
-            .addOptions(
+            .setPlaceholder('Make a selection!');
+        // Add each source to the menu
+        sources.forEach(source => {
+            select_source.addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('Create new source')
-                    .setDescription('Creates a new source for future logs.')
-                    .setValue('createSource'),
-                new StringSelectMenuOptionBuilder()
-                    .setLabel('One time source')
-                    .setDescription('Creates a one time source for a single log.')
-                    .setValue('oneTimeSource'),
-                new StringSelectMenuOptionBuilder()
-                    .setLabel('Title')
-                    .setDescription('Written Description')
-                    .setValue('titleKey')
-            )
+                    .setLabel(source.sourceName)
+                    .setDescription(source.sourceType)
+                    .setValue(source.sourceName)
+            );
+        });
+
+        // Add the rest of the options
+        select_source.addOptions(
+            new StringSelectMenuOptionBuilder()
+                .setLabel('Create new source')
+                .setDescription('Creates a new source for future logs.')
+                .setValue('createSource'),
+            new StringSelectMenuOptionBuilder()
+                .setLabel('One time source')
+                .setDescription('Creates a one time source for a single log.')
+                .setValue('oneTimeSource')
+        )
 
         const row = new ActionRowBuilder()
             .addComponents(select_source);
