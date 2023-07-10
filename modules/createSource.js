@@ -54,7 +54,8 @@ module.exports = {
                     embed
                         .setTitle('Source Already Exists')
                         .setDescription(`You already have a source of type "${contentType}" with the title "${title}"!`)
-                        .setThumbnail('https://cdn.discordapp.com/avatars/1125900859528712212/4ff91215c19043f95527d55c5b9cc491.webp?size=512&width=0&height=0');
+                        .setThumbnail('https://cdn.discordapp.com/avatars/1125900859528712212/4ff91215c19043f95527d55c5b9cc491.webp?size=512&width=0&height=0')
+                        .setColor('#ffe17e');
                     sourceConfirmation.update({ embed: [existsEmbed], components: [] });
                     return;
                 }
@@ -70,7 +71,8 @@ module.exports = {
                         { name: 'Description', value: description, inline: true },
                         { name: 'Type', value: contentType, inline: true },
                     )
-                    .setThumbnail('https://cdn.discordapp.com/avatars/1125900859528712212/4ff91215c19043f95527d55c5b9cc491.webp?size=512&width=0&height=0');
+                    .setThumbnail('https://cdn.discordapp.com/avatars/1125900859528712212/4ff91215c19043f95527d55c5b9cc491.webp?size=512&width=0&height=0')
+                    .setColor('#ffe17e');
 
                 sourceConfirmation.update({ embeds: [embed], components: [] });
             }

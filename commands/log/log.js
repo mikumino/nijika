@@ -12,7 +12,8 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setTitle('Immersion Tracker')
             .setDescription('Select an existing source, or create a new/temporary one.')
-            .setThumbnail('https://cdn.discordapp.com/avatars/1125900859528712212/4ff91215c19043f95527d55c5b9cc491.webp?size=512&width=0&height=0'); // lol hardcoded
+            .setThumbnail('https://cdn.discordapp.com/avatars/1125900859528712212/4ff91215c19043f95527d55c5b9cc491.webp?size=512&width=0&height=0') // lol hardcoded
+            .setColor('#ffe17e');
 
         // TODO: Get user id and pull titles for first menu
         const select_source = new StringSelectMenuBuilder()
