@@ -31,6 +31,13 @@ Log.createLog = async function (sourceId, userId, duration) {
     user.XP += duration*1.2;
     await user.save();
 
+    // Update source total duration if not one time
+    const source = await Source.findOne({ where: { sourceId: sourceId } });
+    if (!source.oneTime) {
+        source.totalDuration += duration;
+        await source.save();
+    }
+
     return log;
 }
 

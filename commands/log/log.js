@@ -2,6 +2,7 @@ const { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder
 
 const createSource = require('../../modules/createSource');
 const oneTimeSource = require('../../modules/oneTimeSource');
+const logExistingSource = require('../../modules/logExistingSource');
 
 const Source = require('../../models/Source');
 
@@ -30,7 +31,7 @@ module.exports = {
                 new StringSelectMenuOptionBuilder()
                     .setLabel(source.sourceName)
                     .setDescription(source.sourceType)
-                    .setValue(source.sourceName)
+                    .setValue(source.sourceId.toString())
             );
         });
 
@@ -71,7 +72,7 @@ module.exports = {
             }
 
             else {
-                await interaction.update({ content: 'dont click this one yet', components: [] });
+                logExistingSource.execute(confirmation, confirmation.values[0], collectorFilter);
             }
         } catch (e) {
             console.log(e);
