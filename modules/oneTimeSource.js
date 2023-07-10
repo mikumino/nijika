@@ -51,11 +51,7 @@ module.exports = {
                 const source = await Source.create({ sourceName: title, sourceDescription: description, sourceType: contentType, userId: user.userId, oneTime: true, totalDuration: duration });
 
                 // Create log
-                const log = await Log.create({ duration: duration, sourceId: source.sourceId, userId: user.userId });
-
-                // Give user XP
-                user.XP += duration*2;
-                await user.save();
+                const log = await Log.createLog(source.sourceId, user.userId, duration);
 
                 // Send confirmation
                 const embed = embedEntryLog.execute(log, source, typeConfirmation);
