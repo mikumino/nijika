@@ -8,8 +8,8 @@ const User = sequelize.define('User', {
         primaryKey: true,
     },
     XP: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,   
+        type: DataTypes.DECIMAL(10, 1),
+        defaultValue: 0.0,   
     },
 });
 

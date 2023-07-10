@@ -13,6 +13,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 (async () => {
     try {
         await sequelize.sync();
+        // await sequelize.sync({ alter: true, force: true }); // WARNING: This will drop all tables and recreate them
         console.log('Database synced.');
     } catch (error) {
         console.error('Error syncing database:', error);
@@ -49,7 +50,5 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args));
 	}
 }
-
-
 
 client.login(token);

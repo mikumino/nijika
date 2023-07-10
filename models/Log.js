@@ -28,7 +28,7 @@ Log.createLog = async function (sourceId, userId, duration) {
 
     // Give user XP
     const user = await User.findOne({ where: { userId: userId } });
-    user.XP += duration*2;
+    user.XP += duration*1.2;
     await user.save();
 
     return log;
