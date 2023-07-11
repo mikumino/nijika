@@ -4,14 +4,10 @@ Log immersion, get experience points, level up, and share your immersion progres
 
 ## 📃 Requirements
 
----
-
 1. Discord Bot Token ([guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot))
 2. Node.js (tested on v18.13.0+)
 
 ## 💾 Installation
-
----
 
 Run the following:
 
@@ -37,8 +33,6 @@ node index.js
 ```
 
 ## 🎊 Features
-
----
 
 - Immersion tracking with /log
     - Create Sources: Media sources you can repetitively log
