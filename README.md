@@ -39,4 +39,4 @@ node index.js
     - Log one-time media
     - Gain XP from tracking, compete with friends
 
-![Preview](https://media.discordapp.net/attachments/860052392715616266/1128426070518009977/immersionbotpreview.png?width=1149&height=665)
+![Preview](https://media.discordapp.net/attachments/1126947058906038322/1128429379136008232/immersionbotpreview.png?width=1171&height=661)
