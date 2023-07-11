@@ -15,7 +15,7 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setTitle('Immersion Tracker')
             .setDescription('Select an existing source, or create a new/temporary one.')
-            .setThumbnail('https://cdn.discordapp.com/avatars/1125900859528712212/4ff91215c19043f95527d55c5b9cc491.webp?size=512&width=0&height=0') // lol hardcoded
+            .setThumbnail(interaction.user.avatarURL())
             .setColor('#ffe17e');
 
         // Get all sources from userId that are not completed nor one time

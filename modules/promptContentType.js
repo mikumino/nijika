@@ -6,7 +6,7 @@ module.exports = {
         const contentTypeEmbed = new EmbedBuilder()
             .setTitle('Immersion Tracker')
             .setDescription('Select the type of content you are logging.')
-            .setThumbnail('https://cdn.discordapp.com/avatars/1125900859528712212/4ff91215c19043f95527d55c5b9cc491.webp?size=512&width=0&height=0')
+            .setThumbnail(confirmation.user.avatarURL())
             .setColor('#ffe17e');
 
         const select_content_type = new StringSelectMenuBuilder()
