@@ -44,6 +44,9 @@ module.exports = {
 
                 // Get or create user
                 const [user, created] = await User.findOrCreate({ where: { userId: typeConfirmation.user.id } });
+                console.log(user)
+                console.log(user.userId)
+                console.log(typeConfirmation.user.id)
 
                 // Check that user hasn't already created a source of the same type with the same title
                 const existingSource = await Source.findOne({ where: { sourceName: title, sourceType: contentType, userId: user.userId, oneTime: false }, });
