@@ -1,5 +1,6 @@
 const { StringSelectMenuOptionBuilder, ActionRowBuilder, SlashCommandBuilder, StringSelectMenuBuilder, EmbedBuilder } = require('discord.js')
 
+const User = require('../../models/User');
 const Source = require('../../models/Source');
 
 module.exports = {
@@ -7,13 +8,19 @@ module.exports = {
         .setName('complete')
         .setDescription('Mark source as complete, removing it from source list.'),
     async execute(interaction) {
+        // Check user exists and that they have sources to complete
+        const [user, created] = await User.findOrCreate({ where: { userId: interaction.user.id } });
+        const sources = await Source.findAll({ where: { userId: interaction.user.id, completed: false, oneTime: false } });
+
+        if (sources.length === 0) {
+            return await interaction.reply({ content: 'You have no sources to complete.' });   // make an embed later?
+        }
+
         const embed = new EmbedBuilder()
             .setTitle('Source Completion')
             .setDescription('Select a source that you would like to mark as complete, removing it from the source list.')
             .setThumbnail(interaction.user.avatarURL())
             .setColor('#ffe17e')
-        
-        const sources = await Source.findAll({ where: { userId: interaction.user.id, completed: false, oneTime: false}});
 
         const select_source = new StringSelectMenuBuilder()
             .setCustomId('Title')
