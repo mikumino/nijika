@@ -29,6 +29,9 @@ Log.createLog = async function (sourceId, userId, duration) {
     // Give user XP
     const user = await User.findOne({ where: { userId: userId } });
     user.XP += duration*1.2;
+    // Round to one decimal place
+    user.XP = Math.round(user.XP * 10) / 10;
+
     await user.save();
 
     // Update source total duration if not one time
