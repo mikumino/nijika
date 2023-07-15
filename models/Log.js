@@ -44,4 +44,9 @@ Log.createLog = async function (sourceId, userId, duration) {
     return log;
 }
 
+// calcXP - calculates the XP for a given duration
+Log.calcXP = function (duration) {
+    return Math.round((duration*1.2)*10)/10;
+}
+
 module.exports = Log;
