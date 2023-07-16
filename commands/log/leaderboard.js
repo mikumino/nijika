@@ -44,10 +44,6 @@ module.exports = {
             users.splice(10);
         }
 
-        // // test to see if first user is correct
-        // const firstUser = (await interaction.client.users.fetch(users[1].userId)).username;
-        // await interaction.reply({ content: firstUser });
-
         // Create embed
         const embed = new EmbedBuilder()
             .setTitle(`Monthly Leaderboard 🏆`)
