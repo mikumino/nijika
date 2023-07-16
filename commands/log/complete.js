@@ -60,7 +60,7 @@ module.exports = {
             
         } catch (e) {
             console.log(e);
-            await interaction.editReply({content: 'Do you even really immerse??? :( I\'m impatient', components: []});
+            await interaction.editReply({content: 'Do you even really immerse??? :( I\'m impatient', embeds: [], components: []});
         }
 
         
