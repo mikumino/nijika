@@ -3,6 +3,9 @@ const Log = require('../models/Log');
 
 module.exports = {
     execute(log, source, interaction) {
+        if (source.sourceDescription == "") {
+            source.sourceDescription = "No description.";
+        }
         return new EmbedBuilder()
             .setTitle(`${interaction.user.username} logged ${log.duration} minutes! 🎉`)
             .setDescription(`Source "${source.sourceName}" has been logged ${log.duration} minutes!`)

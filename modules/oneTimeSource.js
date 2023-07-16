@@ -22,6 +22,7 @@ module.exports = {
             const oneTimeDescription = new TextInputBuilder()
                 .setCustomId('oneTimeDescription')
                 .setLabel('Description')
+                .setRequired(false)
                 .setStyle(TextInputStyle.Paragraph);
             const oneTimeTime = new TextInputBuilder()
                 .setCustomId('oneTimeTime')
