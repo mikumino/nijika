@@ -23,6 +23,7 @@ module.exports = {
             const sourceDescription = new TextInputBuilder()
                 .setCustomId('sourceDescription')
                 .setLabel('Description')
+                .setRequired(false)
                 .setStyle(TextInputStyle.Paragraph);
 
 
@@ -35,18 +36,17 @@ module.exports = {
             await typeConfirmation.showModal(sourceMenu);
 
             // Wait for modal submission and assign values to variables
-            const sourceConfirmation = await typeConfirmation.awaitModalSubmit({ filter: collectorFilter, time: 30000 });
+            const modalFilter = (interaction) => interaction.customId === 'sourceModal' && interaction.user.id === typeConfirmation.user.id;
+
+            const sourceConfirmation = await typeConfirmation.awaitModalSubmit({ filter: modalFilter, time: 30000 });
 
             if (sourceConfirmation) {
                 // Extract fields from modal submission and assign to variables
                 const title = sourceConfirmation.fields.getTextInputValue('sourceTitle');
-                const description = sourceConfirmation.fields.getTextInputValue('sourceDescription');
+                let description = sourceConfirmation.fields.getTextInputValue('sourceDescription');
 
                 // Get or create user
                 const [user, created] = await User.findOrCreate({ where: { userId: typeConfirmation.user.id } });
-                console.log(user)
-                console.log(user.userId)
-                console.log(typeConfirmation.user.id)
 
                 // Check that user hasn't already created a source of the same type with the same title
                 const existingSource = await Source.findOne({ where: { sourceName: title, sourceType: contentType, userId: user.userId, oneTime: false }, });
@@ -59,12 +59,16 @@ module.exports = {
                         .setDescription(`You already have a source of type "${contentType}" with the title "${title}"!`)
                         .setThumbnail(typeConfirmation.user.avatarURL())
                         .setColor('#ffe17e');
-                    sourceConfirmation.update({ embed: [existsEmbed], components: [] });
+                    sourceConfirmation.update({ embed: [embed], components: [] });
                     return;
                 }
 
                 // Create source
                 await Source.create({ sourceName: title, sourceDescription: description, sourceType: contentType, userId: user.userId });
+
+                if (description === "") {
+                    description = "No description.";
+                }
 
                 embed
                     .setTitle('Source Created')
