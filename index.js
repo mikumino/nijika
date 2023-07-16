@@ -9,6 +9,8 @@ const Log = require('./models/Log');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
+module.exports = client;
+
 // Sync database
 (async () => {
     try {
