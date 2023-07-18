@@ -43,7 +43,14 @@ module.exports = {
                 // Extract fields from modal submission and assign to variables
                 const title = oneTimeConfirmation.fields.getTextInputValue('oneTimeTitle');
                 const description = oneTimeConfirmation.fields.getTextInputValue('oneTimeDescription');
-                const duration = oneTimeConfirmation.fields.getTextInputValue('oneTimeTime')
+                let duration = oneTimeConfirmation.fields.getTextInputValue('oneTimeTime')
+
+                // Strip whitespace and check if duration is valid
+                duration = duration.replace(/\s/g, '');
+                if (!duration.match(/^\d+$/) && !(parseInt(duration) > 0)) {
+                    confirmation.editReply({ content: 'Invalid duration. Please try again.', components: [], embeds: [] });
+                    return;
+                }
 
                 // Get or create user
                 const [user, created] = await User.findOrCreate({ where: { userId: typeConfirmation.user.id } });
