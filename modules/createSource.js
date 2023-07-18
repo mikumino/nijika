@@ -59,7 +59,7 @@ module.exports = {
                         .setDescription(`You already have a source of type "${contentType}" with the title "${title}"!`)
                         .setThumbnail(typeConfirmation.user.avatarURL())
                         .setColor('#ffe17e');
-                    sourceConfirmation.update({ embed: [embed], components: [] });
+                    sourceConfirmation.update({ embeds: [embed], components: [] });
                     return;
                 }
 
