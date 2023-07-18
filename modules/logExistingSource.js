@@ -26,7 +26,13 @@ module.exports = {
             const logConfirmation = await confirmation.awaitModalSubmit({ filter: collectorFilter, time: 30000 });
 
             if (logConfirmation) {
-                const duration = logConfirmation.fields.getTextInputValue('duration');
+                let duration = logConfirmation.fields.getTextInputValue('duration');
+                // Strip whitespace and check if duration is valid
+                duration = duration.replace(/\s/g, '');
+                if (!duration.match(/^\d+$/) && !(parseInt(duration) > 0)) {
+                    confirmation.editReply({ content: 'Invalid duration. Please try again.', components: [], embeds: [] });
+                    return;
+                }
                 
                 const log = await Log.createLog(sourceId, confirmation.user.id, duration);
 
