@@ -28,7 +28,8 @@ module.exports = {
         sources.forEach(source => {
             select_source.addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel(source.sourceName + " - " + source.sourceType)
+                    .setLabel(source.sourceName)
+                    .setDescription(source.sourceType)
                     .setValue(source.sourceId.toString())
             );
         });
