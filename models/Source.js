@@ -25,8 +25,8 @@ const Source = sequelize.define('Source', {
         defaultValue: 0,
     },
     completed: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
+        type: DataTypes.STRING,
+        defaultValue: 'In Progress',
     },
     oneTime: {
         type: DataTypes.BOOLEAN,
