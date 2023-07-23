@@ -60,7 +60,7 @@ module.exports = {
                 const [user, created] = await User.findOrCreate({ where: { userId: typeConfirmation.user.id } });
 
                 // Create one time source
-                const source = await Source.create({ sourceName: title, sourceDescription: description, sourceType: contentType, userId: user.userId, oneTime: true, totalDuration: duration });
+                const source = await Source.create({ sourceName: title, sourceDescription: description, sourceType: contentType, userId: user.userId, oneTime: true, totalDuration: duration, status: 'Completed' });
 
                 // Create log
                 const log = await Log.createLog(source.sourceId, user.userId, duration);
