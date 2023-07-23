@@ -19,7 +19,7 @@ module.exports = {
             .setColor('#ffe17e');
 
         // Get all sources from userId that are not completed nor one time
-        const sources = await Source.findAll({ where: { userId: interaction.user.id, completed: false, oneTime: false } });
+        const sources = await Source.findAll({ where: { userId: interaction.user.id, status: "In Progress", oneTime: false } });
         // console.log(sources);
 
         const select_source = new StringSelectMenuBuilder()

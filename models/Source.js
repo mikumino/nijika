@@ -24,7 +24,7 @@ const Source = sequelize.define('Source', {
         type: DataTypes.INTEGER,
         defaultValue: 0,
     },
-    completed: {
+    status: {
         type: DataTypes.STRING,
         defaultValue: 'In Progress',
     },

@@ -10,7 +10,7 @@ module.exports = {
     async execute(interaction) {
         // Check user exists and that they have sources to complete
         const [user, created] = await User.findOrCreate({ where: { userId: interaction.user.id } });
-        const sources = await Source.findAll({ where: { userId: interaction.user.id, completed: false, oneTime: false } });
+        const sources = await Source.findAll({ where: { userId: interaction.user.id, status: "In Progress", oneTime: false } });
 
         if (sources.length === 0) {
             return await interaction.reply({ content: 'You have no sources to complete.' });   // make an embed later?
@@ -47,7 +47,7 @@ module.exports = {
             const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 15000 });
 
             const completedSource = await Source.findByPk(confirmation.values[0]);
-            completedSource.completed = true;
+            completedSource.status = "Completed";
             await completedSource.save()
 
             const embed2 = new EmbedBuilder()
