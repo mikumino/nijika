@@ -28,7 +28,7 @@ module.exports = {
         sources.forEach(source => {
             select_source.addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel(source.sourceName)
+                    .setLabel(source.sourceName + " - " + source.sourceType)
                     .setValue(source.sourceId.toString())
             );
         });
@@ -52,7 +52,7 @@ module.exports = {
 
             const embed2 = new EmbedBuilder()
                 .setTitle('Source Completed')
-                .setDescription(`Source "${completedSource.sourceName}" marked as complete! Congrats!`)
+                .setDescription(`${completedSource.sourceType} Source "${completedSource.sourceName}" marked as complete! Congrats!`)
                 .setThumbnail(interaction.user.avatarURL())
                 .setColor('#ffe17e')
 
