@@ -39,6 +39,10 @@ module.exports = {
 
             const oneTimeConfirmation = await confirmation.awaitModalSubmit({ filter: collectorFilter, time: 30000 });
 
+            if (oneTimeConfirmation.message.id !== confirmation.message.id) {
+                throw new Error('Modal message ID does not match original message ID.');
+            }
+
             if (oneTimeConfirmation) {
                 // Extract fields from modal submission and assign to variables
                 const title = oneTimeConfirmation.fields.getTextInputValue('oneTimeTitle');
