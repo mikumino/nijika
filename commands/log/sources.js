@@ -86,7 +86,7 @@ module.exports = {
         // Display sources function
         const displaySources = async () => {
             // Clear description
-            description = '';
+            description = 'Sources:\n';
 
             for (let i = sourceIndex; i < 10; i++) {
                 if (sourceList[i]) {
