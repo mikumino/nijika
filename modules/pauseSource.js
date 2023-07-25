@@ -9,7 +9,7 @@ module.exports = {
 
         // If user has no In Progress sources, send message and return
         if (sources.length === 0) {
-            confirmation.editReply({ content: 'You have no sources to pause.', components: [], embeds: [] });
+            confirmation.update({ content: 'You have no sources to pause.', components: [], embeds: [] });
             return;
         }
 

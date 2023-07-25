@@ -8,7 +8,7 @@ module.exports = {
         const sources = await Source.findAll({ where: { status: 'Paused', userId: confirmation.user.id } });
 
         if (sources.length === 0 ) {
-            confirmation.editReply({ content: 'You have no sources to resume.', components: [], embeds: [] });
+            confirmation.update({ content: 'You have no sources to resume.', components: [], embeds: [] });
             return;
         }
 
