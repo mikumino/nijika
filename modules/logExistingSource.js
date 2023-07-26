@@ -25,6 +25,10 @@ module.exports = {
             await confirmation.showModal(logExistingSourceModal);
             const logConfirmation = await confirmation.awaitModalSubmit({ filter: collectorFilter, time: 30000 });
 
+            if (logConfirmation.message.id !== confirmation.message.id) {
+                throw new Error('Wrong message ID');
+            }
+
             if (logConfirmation) {
                 let duration = logConfirmation.fields.getTextInputValue('duration');
                 // Strip whitespace and check if duration is valid
