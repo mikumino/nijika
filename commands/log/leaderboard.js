@@ -34,6 +34,7 @@ module.exports = {
                 users.push({ userId: log.userId, XP: XP });
             } else {
                 user.XP += XP;
+                user.XP = Math.round(user.XP * 10) / 10;
             }
         });
 
