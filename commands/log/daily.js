@@ -12,7 +12,7 @@ module.exports = {
         // Check user exists and that they set a timezone
         const [user, created] = await User.findOrCreate({ where: { userId: interaction.user.id } });
         if (user.timezone === '') {
-            await interaction.reply('You must set a timezone before using this command. Use /timezone to set your timezone.');
+            return await interaction.reply('You must set a timezone before using this command. Use /timezone to set your timezone.');
         }
 
         // function to convert duration (mins) to hours and mins
