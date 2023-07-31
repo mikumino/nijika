@@ -12,7 +12,7 @@ Log immersion, get experience points, level up, and share your immersion progres
 Run the following:
 
 ```python
-git clone https://github.com/mikumino/mukou.git
+git clone https://github.com/mikumino/nijika.git
 cd mukou
 npm install
 ```
