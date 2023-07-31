@@ -1,4 +1,4 @@
-# Mukou - Immersion Tracking Discord Bot
+# Nijika - Immersion Tracking Discord Bot
 
 Log immersion, get experience points, level up, and share your immersion progress with friends.
 
