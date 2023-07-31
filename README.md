@@ -1,6 +1,6 @@
 # Nijika - Immersion Tracking Discord Bot
 
-Log immersion, get experience points, level up, and share your immersion progress with friends.
+Log immersion, get experience points, level up, and share your immersion progress with friends. Heavily inspired by TheMoeWay's immersion bot.
 
 ![Preview](https://cdn.discordapp.com/attachments/860052392715616266/1135459697760153630/Screenshot_210.png)
 
