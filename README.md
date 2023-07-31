@@ -2,6 +2,8 @@
 
 Log immersion, get experience points, level up, and share your immersion progress with friends.
 
+![Preview](https://cdn.discordapp.com/attachments/860052392715616266/1135459697760153630/Screenshot_210.png)
+
 ## 📃 Requirements
 
 1. Discord Bot Token ([guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot))
@@ -13,7 +15,7 @@ Run the following:
 
 ```python
 git clone https://github.com/mikumino/nijika.git
-cd mukou
+cd nijika
 npm install
 ```
 
@@ -39,4 +41,6 @@ node index.js
     - Log one-time media
     - Gain XP from tracking, compete with friends
 
-![Preview](https://media.discordapp.net/attachments/1126947058906038322/1128429379136008232/immersionbotpreview.png?width=1171&height=661)
+
+![Preview](https://cdn.discordapp.com/attachments/860052392715616266/1135459697986650112/Screenshot_208.png)
+![Preview](https://cdn.discordapp.com/attachments/860052392715616266/1135459698221518858/Screenshot_209.png)
