@@ -1,7 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const Log = require('../../models/Log');
 const Source = require('../../models/Source');
-const User = require('../../models/User');
 const { Op } = require('sequelize');
 
 module.exports = {
@@ -9,12 +8,6 @@ module.exports = {
         .setName('daily')
         .setDescription('Summary of last 20 hours of logs'),
     async execute(interaction) {
-        // Check user exists and that they set a timezone
-        const [user, created] = await User.findOrCreate({ where: { userId: interaction.user.id } });
-        if (user.timezone === '') {
-            await interaction.reply('You must set a timezone before using this command. Use /timezone to set your timezone.');
-        }
-
         // function to convert duration (mins) to hours and mins
         const toHoursMins = (duration) => {
             let hours = Math.floor(duration / 60);
