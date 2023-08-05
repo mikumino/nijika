@@ -6,8 +6,13 @@ const { Op } = require('sequelize');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('daily')
-        .setDescription('Summary of last 20 hours of logs'),
+        .setDescription('Summary of last day of logs'),
     async execute(interaction) {
+        const startTime = new Date();
+        startTime.setHours(0, 0, 0, 0);
+        const endTime = new Date();
+        endTime.setHours(23, 59, 59, 999);
+
         // function to convert duration (mins) to hours and mins
         const toHoursMins = (duration) => {
             let hours = Math.floor(duration / 60);
@@ -19,7 +24,7 @@ module.exports = {
         const logs = await Log.findAll({
             where: {
                 userId: interaction.user.id,
-                createdAt: { [Op.gte]: new Date(Date.now() - 20 * 60 * 60 * 1000) }
+                createdAt: { [Op.between]: [startTime, endTime] }
             },
             order: [['createdAt', 'ASC']]
         });
