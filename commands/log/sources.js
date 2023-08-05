@@ -90,7 +90,7 @@ module.exports = {
 
             for (let i = sourceIndex; i < 10; i++) {
                 if (sourceList[i]) {
-                    description += `${sourceList[i].sourceName} / ${sourceList[i].sourceType} / ${sourceList[i].status}\n`;
+                    description += `‣ ${sourceList[i].sourceName} / ${sourceList[i].sourceType} / ${sourceList[i].status}\n`;
                 }
             }
 
