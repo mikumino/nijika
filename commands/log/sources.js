@@ -81,7 +81,7 @@ module.exports = {
         let currentPage = 1;
         let maxPages = Math.ceil(inProgressSources.length / 10);
         let sourceIndex = 0;
-        let sourceList = allSources;
+        let sourceList = inProgressSources;
 
         // Display sources function
         const displaySources = async () => {
