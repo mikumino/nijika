@@ -37,7 +37,7 @@ module.exports = {
 
             await typeConfirmation.showModal(oneTimeMenu);
 
-            const oneTimeConfirmation = await confirmation.awaitModalSubmit({ filter: collectorFilter, time: 30000 });
+            const oneTimeConfirmation = await confirmation.awaitModalSubmit({ filter: collectorFilter, time: 60000 });
 
             if (oneTimeConfirmation.message.id !== confirmation.message.id) {
                 throw new Error('Modal message ID does not match original message ID.');

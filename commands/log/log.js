@@ -59,7 +59,7 @@ module.exports = {
 
         try {
             // Wait for user to select an option
-            const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 30000 });
+            const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60000 });
 
             // If user selects createSource, create a new source
             if (confirmation.values[0] === 'createSource') {    // values[0] because only one option can be selected

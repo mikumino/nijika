@@ -36,7 +36,7 @@ module.exports = {
             await typeConfirmation.showModal(sourceMenu);
 
             // Wait for modal submission and assign values to variables
-            const sourceConfirmation = await typeConfirmation.awaitModalSubmit({ filter: collectorFilter, time: 30000 });
+            const sourceConfirmation = await typeConfirmation.awaitModalSubmit({ filter: collectorFilter, time: 60000 });
             // Check that received modal submission is same message as message attached to first interaction
             if (sourceConfirmation.message.id !== confirmation.message.id) {
                 throw new Error('Modal message ID does not match original message ID.');

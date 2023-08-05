@@ -23,7 +23,7 @@ module.exports = {
 
             // Prompt user with modal
             await confirmation.showModal(logExistingSourceModal);
-            const logConfirmation = await confirmation.awaitModalSubmit({ filter: collectorFilter, time: 30000 });
+            const logConfirmation = await confirmation.awaitModalSubmit({ filter: collectorFilter, time: 60000 });
 
             if (logConfirmation.message.id !== confirmation.message.id) {
                 throw new Error('Wrong message ID');
