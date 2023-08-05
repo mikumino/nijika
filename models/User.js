@@ -11,10 +11,6 @@ const User = sequelize.define('User', {
         type: DataTypes.DECIMAL(10, 1),
         defaultValue: 0.0,   
     },
-    timezone: {
-        type: DataTypes.STRING,
-        defaultValue: '',
-    },
 });
 
 module.exports = User;
