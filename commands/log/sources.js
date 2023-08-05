@@ -17,6 +17,7 @@ module.exports = {
         let inProgressSources = [];
         let pausedSources = [];
         let completedSources = [];
+        let oneTimeSources = [];
         
         // Sort sources into arrays based on status
         allSources.forEach(source => {
@@ -26,14 +27,18 @@ module.exports = {
             else if (source.status === "Paused") {
                 pausedSources.push(source);
             }
-            else {
+            else if (source.status === "Completed" && source.oneTime === false){
                 completedSources.push(source);
+            }
+            else {
+                oneTimeSources.push(source);
             }
         });
  
         inProgressSources.sort((a, b) => b.createdAt - a.createdAt);
         pausedSources.sort((a, b) => b.createdAt - a.createdAt);
         completedSources.sort((a, b) => b.createdAt - a.createdAt);
+        oneTimeSources.sort((a, b) => b.createdAt - a.createdAt);
 
         // Buttons for page navigation
         const previousButton = new ButtonBuilder()
@@ -61,7 +66,10 @@ module.exports = {
                     .setValue('paused'),
                 new StringSelectMenuOptionBuilder()
                     .setLabel('Completed')
-                    .setValue('completed')
+                    .setValue('completed'),
+                new StringSelectMenuOptionBuilder()
+                    .setLabel('One Time')
+                    .setValue('oneTime'),
             );
 
         // Action rows
@@ -146,8 +154,11 @@ module.exports = {
                 else if (i.values[0] === 'paused') {
                     sourceList = pausedSources;
                 }
-                else {
+                else if (i.values[0] === 'completed') {
                     sourceList = completedSources;
+                }
+                else {
+                    sourceList = oneTimeSources;
                 }
                 // Reset page number
                 currentPage = 1;
