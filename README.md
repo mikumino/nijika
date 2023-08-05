@@ -1,6 +1,8 @@
-# Mukou - Immersion Tracking Discord Bot
+# Nijika - Immersion Tracking Discord Bot
 
-Log immersion, get experience points, level up, and share your immersion progress with friends.
+Log immersion, get experience points, level up, and share your immersion progress with friends. Heavily inspired by TheMoeWay's immersion bot.
+
+![Preview](https://cdn.discordapp.com/attachments/860052392715616266/1135459697760153630/Screenshot_210.png)
 
 ## 📃 Requirements
 
@@ -12,8 +14,8 @@ Log immersion, get experience points, level up, and share your immersion progres
 Run the following:
 
 ```python
-git clone https://github.com/mikumino/mukou.git
-cd mukou
+git clone https://github.com/mikumino/nijika.git
+cd nijika
 npm install
 ```
 
@@ -39,4 +41,6 @@ node index.js
     - Log one-time media
     - Gain XP from tracking, compete with friends
 
-![Preview](https://media.discordapp.net/attachments/1126947058906038322/1128429379136008232/immersionbotpreview.png?width=1171&height=661)
+
+![Preview](https://cdn.discordapp.com/attachments/860052392715616266/1135459697986650112/Screenshot_208.png)
+![Preview](https://cdn.discordapp.com/attachments/860052392715616266/1135459698221518858/Screenshot_209.png)
