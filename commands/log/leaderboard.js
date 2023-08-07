@@ -18,6 +18,9 @@ module.exports = {
         // init embed with monthly leaderboard
         const embed = await createLeaderboard.create(interaction, startDate, endDate);
 
+        // set title
+        embed.setTitle('Monthly Leaderboard 🏆');
+
         await interaction.reply({ embeds: [embed] });
     }
 }
