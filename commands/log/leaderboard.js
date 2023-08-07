@@ -47,7 +47,6 @@ module.exports = {
 
         collector.on('collect', async i => {
             if (i.values[0] === 'daily') {
-
                 startDate = new Date();
                 startDate.setHours(0, 0, 0, 0);
                 endDate = new Date();
