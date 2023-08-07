@@ -19,6 +19,7 @@
   "homepage": "https://github.com/mikumino/mukou#readme",
   "dependencies": {
     "discord.js": "^14.11.0",
+    "node-cron": "^3.0.2",
     "sequelize": "^6.32.1",
     "sqlite3": "^5.1.6"
   },
