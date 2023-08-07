@@ -8,8 +8,10 @@ async function start(channel) {
         try {
             console.log('Sending daily message.');
             const startDate = new Date();
+            startDate.setDate(startDate.getDate() - 1);
             startDate.setHours(0, 0, 0, 0);
             const endDate = new Date();
+            endDate.setDate(endDate.getDate() - 1);
             endDate.setHours(23, 59, 59, 999);
             const embed = await createLeaderboard.create(channel, startDate, endDate);
             embed.setTitle(`${channel.guild.name}'s Daily Summary 🕙`);
