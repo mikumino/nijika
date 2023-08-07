@@ -13,24 +13,17 @@ A personal solution for my friend's server. Log immersion, get experience points
 
 Run the following:
 
-```python
+```
 git clone https://github.com/mikumino/nijika.git
 cd nijika
 npm install
 ```
 
-Then make a config.json with:
-
-```python
-{
-    "token": "YOUR BOT TOKEN HERE",
-    "clientId": "YOUR BOT CLIENT ID HERE",
-}
-```
+Fill appropriate fields in `example-config.json` and rename it to `config.json`. 
 
 You can then start the bot with:
 
-```python
+```
 node index.js
 ```
 
