@@ -1,0 +1,6 @@
+{
+    "token": "YOUR BOT TOKEN HERE",
+    "clientId": "BOT CLIENT ID HERE",
+    "logChannelId": "LOG CHANNEL ID HERE (OPTIONAL)",
+    "dailyLeaderboard": false
+}
