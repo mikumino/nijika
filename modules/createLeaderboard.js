@@ -22,12 +22,20 @@ module.exports = {
             const user = users.find(user => user.userId === log.userId);
             const XP = Log.calcXP(log.duration);
             if (!user) {
-                users.push({ userId: log.userId, XP: XP });
+                users.push({ userId: log.userId, XP: XP, totalDuration: log.duration });
             } else {
                 user.XP += XP;
                 user.XP = Math.round(user.XP * 10) / 10;
+                user.totalDuration += log.duration;
             }
         });
+
+        // this is a duplicate i will clean it up later
+        const toHoursMins = (duration) => {
+            let hours = Math.floor(duration / 60);
+            let mins = duration % 60;
+            return `${hours}h ${mins}m`;
+        }
 
         // Sort users by XP
         users.sort((a, b) => b.XP - a.XP);
@@ -50,7 +58,7 @@ module.exports = {
                 placeString = `${i+1}. `;
             }
             embed.addFields(
-                { name:`${placeString}${user.username}`, value:`${users[i].XP} points`, inline: false },
+                { name:`${placeString}${user.username}`, value:`${users[i].XP} points (${toHoursMins(users[i].totalDuration)})`, inline: false },
                 );
         }
 
