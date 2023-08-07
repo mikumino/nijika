@@ -1,11 +1,12 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
-const { token } = require('./config.json');
+const { token, dailyLeaderboard } = require('./config.json');
 const sequelize = require('./database');
 const User = require('./models/User'); // idk if these are where they should be but they work
 const Source = require('./models/Source');
 const Log = require('./models/Log');
+const cron = require('node-cron');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -53,4 +54,13 @@ for (const file of eventFiles) {
 	}
 }
 
+// log in
 client.login(token);
+
+// start daily leaderboard
+client.once(Events.ClientReady, async () => {
+    if (dailyLeaderboard) {
+        const channel = await client.channels.fetch('1134330884535894208');
+        require('./modules/dailyLeaderboard').start(channel);
+    }
+});
