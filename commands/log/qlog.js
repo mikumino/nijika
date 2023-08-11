@@ -17,7 +17,6 @@ module.exports = {
                 .setRequired(true)),
     async autocomplete(interaction) {
         const focusedValue = interaction.options.getFocused();
-        const [user, created] = await User.findOrCreate({ where: { userId: interaction.user.id}});
         const sources = await Source.findAll({ where: { userId: interaction.user.id, status: "In Progress", oneTime: false}});
         const choices = [];
         sources.forEach(source => {
