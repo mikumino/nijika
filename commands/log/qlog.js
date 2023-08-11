@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('discord.js');
-const User = require('../../models/User');
 const Source = require('../../models/Source');
 
 module.exports = {
@@ -12,21 +11,18 @@ module.exports = {
                 .setAutocomplete(true)
                 .setRequired(true))
         .addIntegerOption(option =>
-            option.setName('time')
-                .setDescription('Time to log')
+            option.setName('duration')
+                .setDescription('Time to log (minutes)')
                 .setRequired(true)),
     async autocomplete(interaction) {
         const focusedValue = interaction.options.getFocused();
         const sources = await Source.findAll({ where: { userId: interaction.user.id, status: "In Progress", oneTime: false}});
         const choices = [];
         sources.forEach(source => {
-            console.log(source.sourceName);
-            choices.push(source.sourceName);
+            choices.push({ name: source.sourceName, value: source.sourceId.toString() });
         })
-        const filtered = choices.filter(choice => choice.startsWith(focusedValue));
-        await interaction.respond(
-            filtered.map(choice => ({ name: choice, value: choice}))
-        );
+        const filtered = choices.filter(choice => choice.name.startsWith(focusedValue));
+        await interaction.respond(filtered);
     },
     async execute(interaction) {
         
