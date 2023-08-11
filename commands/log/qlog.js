@@ -25,6 +25,10 @@ module.exports = {
         await interaction.respond(filtered);
     },
     async execute(interaction) {
-        
+        const sourceId = interaction.options.getString('source');
+        const duration = interaction.options.getInteger('duration');
+        console.log(duration);
+
+        await interaction.reply( { content: `Source id chosen: ${sourceId}, duration: ${duration}` });
     },
 };
