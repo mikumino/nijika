@@ -29,7 +29,10 @@ module.exports = {
                     datasets: [{
                         label: 'Hours',
                         data: logs.map(log => log.totalDuration),
-                    }]
+                        borderColor: 'rgba(250, 117, 107)',
+                        borderWidth: 1,
+                        backgroundColor: 'rgba(250, 117, 107, 0.5)',
+                    }],
                 },
                 options: {
                     scales: {
