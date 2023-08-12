@@ -1,8 +1,9 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
 const QuickChart = require('quickchart-js');
 const sequelize = require('sequelize');
 const { Op } = require('sequelize');
 const Log = require('../../models/Log');
+const fs = require('node:fs');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -20,7 +21,7 @@ module.exports = {
                 )),
     async execute(interaction) {
         // function to create chart, maybe in separate file later
-        const createChart = (logs, range) => {
+        const createChart = async (logs, range) => {
             const chart = new QuickChart();
             chart.setConfig({
                 type: 'bar',
@@ -74,9 +75,11 @@ module.exports = {
                 }
             });
 
-            // get image
-            const chartUrl = chart.getUrl();
-            return chartUrl;
+            // Saves chart image to disk
+            // Sending a URL works but since QuickChart URLs can get pretty long, it's better to just send the image
+            // Short QuickChart URLs also expire after a while
+            await chart.toFile(__dirname + '/chart.png');
+            return;
         }
         
         const range = interaction.options.getString('range') || 'monthly';
@@ -95,6 +98,7 @@ module.exports = {
                 const monthlyLogs = await Log.findAll({
                     attributes: [
                         // Truncate createdAt to date only, no time
+                        // Done to group by date
                         [sequelize.fn('strftime', '%Y-%m-%d', sequelize.fn('datetime', sequelize.col('createdAt'), 'localtime')), 'date'],
                         // Sum duration and divide by 60 to get hours
                         [sequelize.fn('sum', sequelize.literal('duration / 60.0')), 'totalDuration'],
@@ -106,13 +110,15 @@ module.exports = {
                         }
                     },
                     group: ['date'],
-                    raw: true,
+                    raw: true,  // Plain objects so we can use more easily
                 });
-                console.log(monthlyLogs);
-                // create chart
-                const url = createChart(monthlyLogs, range);
-                // send image
-                await interaction.reply(`${url}`);
+
+                await createChart(monthlyLogs, range);
+                const image = new AttachmentBuilder(__dirname + '/chart.png');
+                await interaction.reply( { files: [image] });
+
+                // Deletes chart image from disk
+                fs.unlinkSync(__dirname + '/chart.png');
             case 'yearly':
                 // get logs for past 12 months
                 break;
