@@ -60,7 +60,17 @@ module.exports = {
                                 }
                             }
                         }]
-                    }
+                    },
+                    legend: {
+                        display: false,
+                    },
+                    title: {
+                        display: true,
+                        text: `${interaction.user.username}'s ${range} overview`,
+                    },
+                    layout: {
+                        padding: 10,
+                    },
                 }
             });
 
