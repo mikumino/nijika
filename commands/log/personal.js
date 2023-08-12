@@ -22,7 +22,7 @@ module.exports = {
         // function to create chart, maybe in separate file later
         const createChart = (logs, range) => {
             const firstDay = new Date();
-            firstDay.setDate(1);
+            firstDay.setDate(0);
             const chart = new QuickChart();
             chart.setConfig({
                 type: 'bar',
@@ -36,21 +36,27 @@ module.exports = {
                 options: {
                     scales: {
                         xAxes: [{
+                            offset: true,
                             type: 'time',
                             time: {
                                 // by day if weekly or monthly, by month if yearly
                                 unit: range === 'yearly' ? 'month' : 'day',
                                 displayFormats: {
-                                    day: 'MM/DD',
+                                    day: 'MMM D',
                                 }
                             },
                             ticks: {
                                 min: firstDay,
                             },
+                            
                         }],
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true,
+                                precision: 0,
+                                callback: function(value) {
+                                    return value + 'h';
+                                }
                             }
                         }]
                     }
