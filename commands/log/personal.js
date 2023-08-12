@@ -47,7 +47,7 @@ module.exports = {
                                 }
                             },
                             ticks: {
-                                beginAtZero: true,
+                                min: new Date().setDate(0),
                             },
                             
                         }],
