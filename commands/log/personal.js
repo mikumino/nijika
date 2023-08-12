@@ -21,8 +21,6 @@ module.exports = {
     async execute(interaction) {
         // function to create chart, maybe in separate file later
         const createChart = (logs, range) => {
-            const firstDay = new Date();
-            firstDay.setDate(0);
             const chart = new QuickChart();
             chart.setConfig({
                 type: 'bar',
