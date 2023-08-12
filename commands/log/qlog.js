@@ -23,7 +23,7 @@ module.exports = {
         sources.forEach(source => {
             choices.push({ name: source.sourceName, value: source.sourceId.toString() });
         })
-        const filtered = choices.filter(choice => choice.name.startsWith(focusedValue));
+        const filtered = choices.filter(choice => choice.name.toLowerCase().startsWith(focusedValue.toLowerCase()));
         await interaction.respond(filtered);
     },
     async execute(interaction) {
