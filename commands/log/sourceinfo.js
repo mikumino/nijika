@@ -36,7 +36,7 @@ module.exports = {
             .setDescription(`${source.sourceDescription}`)
             .setFields(
                 { name: 'Type', value: `${source.sourceType}`, inline: true },
-                { name: 'Total Duration', value: `${source.totalDuration}`, inline: true },
+                { name: 'Total Duration', value: `${source.totalDuration} minutes`, inline: true },
                 { name: 'Status', value: `${source.status}`, inline: false },
                 { name: 'One time', value: `${source.oneTime}`, inline: false },
             )
