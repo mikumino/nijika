@@ -1,7 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const Source = require('../../models/Source');
 
-
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('sourceinfo')
@@ -13,7 +12,7 @@ module.exports = {
                 .setRequired(true)),
     async autocomplete(interaction) {
         const focusedValue = interaction.options.getFocused();
-        const sources = await Source.findAll({ where: {userId: interaction.user.id}});
+        const sources = await Source.findAll({ where: {userId: interaction.user.id, oneTime: false}});
         const choices = [];
         sources.forEach(source => {
             choices.push({ name: source.sourceName, value: source.sourceId.toString() });
@@ -29,6 +28,9 @@ module.exports = {
             return;
         }
         console.log(source);
+        if (source.sourceDescription == "") {
+            source.sourceDescription = "No description.";
+        }
         const embed = new EmbedBuilder()
             .setTitle(`${source.sourceName}`)
             .setDescription(`${source.sourceDescription}`)
