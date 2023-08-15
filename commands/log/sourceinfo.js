@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const Source = require('../../models/Source');
+const { toHoursMins } = require('../../modules/utils/datetimeUtils');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -31,14 +32,14 @@ module.exports = {
         if (source.sourceDescription == "") {
             source.sourceDescription = "No description.";
         }
+        const durationHoursMins = toHoursMins(source.totalDuration);
         const embed = new EmbedBuilder()
             .setTitle(`${source.sourceName}`)
             .setDescription(`${source.sourceDescription}`)
             .setFields(
                 { name: 'Type', value: `${source.sourceType}`, inline: true },
-                { name: 'Total Duration', value: `${source.totalDuration} minutes`, inline: true },
+                { name: 'Total Time', value: `${durationHoursMins.hours}h ${durationHoursMins.mins}m`, inline: true },
                 { name: 'Status', value: `${source.status}`, inline: false },
-                { name: 'One time', value: `${source.oneTime}`, inline: false },
             )
             .setThumbnail(interaction.user.avatarURL())
             .setColor('#ffe17e');
