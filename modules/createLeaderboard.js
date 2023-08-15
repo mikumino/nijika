@@ -1,6 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 const { Op } = require('sequelize');
 const Log = require('../models/Log');
+const { toHoursMins } = require('../modules/utils/datetimeUtils');
 
 module.exports = {
     async create(interaction, startDate, endDate) {
@@ -30,13 +31,6 @@ module.exports = {
             }
         });
 
-        // this is a duplicate i will clean it up later
-        const toHoursMins = (duration) => {
-            let hours = Math.floor(duration / 60);
-            let mins = duration % 60;
-            return `${hours}h ${mins}m`;
-        }
-
         // Sort users by XP
         users.sort((a, b) => b.XP - a.XP);
 
@@ -50,6 +44,7 @@ module.exports = {
         // Add fields
         for (let i = 0; i < users.length; i++) {
             const user = await interaction.client.users.fetch(users[i].userId);
+            const hoursMins = toHoursMins(users[i].totalDuration);
             let placeString;
             if (i+1 <= 3) {
                 placeString = emojis[i];
@@ -58,7 +53,7 @@ module.exports = {
                 placeString = `${i+1}. `;
             }
             embed.addFields(
-                { name:`${placeString}${user.username}`, value:`${users[i].XP} points (${toHoursMins(users[i].totalDuration)})`, inline: false },
+                { name:`${placeString}${user.username}`, value:`${users[i].XP} points (${hoursMins.hours}h ${hoursMins.mins}m)`, inline: false },
                 );
         }
 
