@@ -37,6 +37,8 @@ module.exports = {
                     confirmation.editReply({ content: 'Invalid duration. Please try again.', components: [], embeds: [] });
                     return;
                 }
+
+                duration = parseInt(duration);
                 
                 const log = await Log.createLog(sourceId, confirmation.user.id, duration);
 
