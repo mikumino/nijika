@@ -2,6 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const Log = require('../../models/Log');
 const Source = require('../../models/Source');
 const { Op } = require('sequelize');
+const { toHoursMins } = require('../../modules/utils/datetimeUtils');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,13 +13,6 @@ module.exports = {
         startTime.setHours(0, 0, 0, 0);
         const endTime = new Date();
         endTime.setHours(23, 59, 59, 999);
-
-        // function to convert duration (mins) to hours and mins
-        const toHoursMins = (duration) => {
-            let hours = Math.floor(duration / 60);
-            let mins = duration % 60;
-            return `${hours}h ${mins}m`;
-        }
 
         // Get last 20 hours of logs from user id, ascending order
         const logs = await Log.findAll({
@@ -58,12 +52,14 @@ module.exports = {
 
         // fields             :) inm so tired
         for (let i = 0; i < epicLogs.length; i++) {
+            const hoursMins = toHoursMins(epicLogs[i].duration);
             const source = await Source.findByPk(epicLogs[i].sourceId);
-            embed.addFields({ name: `${source.sourceName} - ${source.sourceType}`, value: `${toHoursMins(epicLogs[i].duration)} → ${Log.calcXP(epicLogs[i].duration)} points`, inline: false });
+            embed.addFields({ name: `${source.sourceName} - ${source.sourceType}`, value: `${hoursMins.hours}h ${hoursMins.mins}m → ${Log.calcXP(epicLogs[i].duration)} points`, inline: false });
         }
 
         // total field
-        embed.addFields({ name: `-- Total Time --`, value: `${toHoursMins(total) } → ${Log.calcXP(total)} points`, inline: false });
+        const hoursMins = toHoursMins(total);
+        embed.addFields({ name: `-- Total Time --`, value: `${hoursMins.hours}h ${hoursMins.mins}m → ${Log.calcXP(total)} points`, inline: false });
 
         await interaction.reply({ embeds: [embed] });   // WAHOO
 
