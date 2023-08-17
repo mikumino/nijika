@@ -2,6 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const { Op } = require('sequelize');
 const Log = require('../models/Log');
 const { toHoursMins } = require('../modules/utils/datetimeUtils');
+const images = require('../modules/images.json');
 
 module.exports = {
     async create(interaction, startDate, endDate) {
@@ -57,7 +58,10 @@ module.exports = {
                 );
         }
 
-        embed.setImage('https://media.discordapp.net/attachments/1080024801424441445/1129705898927984752/jCVsxrW.png?width=960&height=541');
+        const randomImage = images.celebrate[Math.floor(Math.random() * images.celebrate.length)];
+        console.log(randomImage);
+        await embed.setImage(randomImage);
+        console.log(embed);
 
         return embed;
     }
