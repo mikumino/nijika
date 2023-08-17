@@ -21,7 +21,7 @@ module.exports = {
         const sources = await Source.findAll({ where: { userId: interaction.user.id, status: "In Progress", oneTime: false}});
         const choices = [];
         sources.forEach(source => {
-            choices.push({ name: source.sourceName, value: source.sourceId.toString() });
+            choices.push({ name: source.sourceName + ` (${source.sourceType})`, value: source.sourceId.toString() });
         })
         const filtered = choices.filter(choice => choice.name.toLowerCase().startsWith(focusedValue.toLowerCase()));
         await interaction.respond(filtered);
