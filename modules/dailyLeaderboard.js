@@ -1,11 +1,13 @@
 const cron = require('node-cron');
 const createLeaderboard = require('./createLeaderboard');
+const images = require('./images.json');
 
 let cronJob;
 
 async function start(channel) {
     cronJob = cron.schedule('0 2 * * *', async () => {
         try {
+            const randomImage = images.rest[Math.floor(Math.random() * images.rest.length)];
             console.log('Sending daily message.');
             const startDate = new Date();
             startDate.setDate(startDate.getDate() - 1);
@@ -15,7 +17,7 @@ async function start(channel) {
             endDate.setHours(23, 59, 59, 999);
             const embed = await createLeaderboard.create(channel, startDate, endDate);
             embed.setTitle(`${channel.guild.name}'s Daily Summary 🕙`);
-            embed.setImage('https://cdn.discordapp.com/attachments/1134330884535894208/1137944989981225010/DKB_Bocchi_the_Rock_-_S01E04_1080pHEVC_x265_10bitMulti-Subs__00_22_03.574__0001_Medium.jpg');
+            embed.setImage(randomImage);
             channel.send({ embeds: [embed] });
         } catch (e) {
             console.log(e);
@@ -28,4 +30,20 @@ function stop() {
     cronJob.stop();
 }
 
-module.exports = { start, stop };
+async function forceSend(channel) {
+    const randomImage = images.rest[Math.floor(Math.random() * images.rest.length)];
+    console.log(randomImage);
+    console.log('Sending daily message.');
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - 1);
+    startDate.setHours(0, 0, 0, 0);
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() - 1);
+    endDate.setHours(23, 59, 59, 999);
+    const embed = await createLeaderboard.create(channel, startDate, endDate);
+    embed.setTitle(`${channel.guild.name}'s Daily Summary 🕙`);
+    await embed.setImage(randomImage);  // I DONT GET IT
+    channel.send({ embeds: [embed] });
+}
+
+module.exports = { start, stop, forceSend };
