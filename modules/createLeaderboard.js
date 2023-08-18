@@ -59,9 +59,7 @@ module.exports = {
         }
 
         const randomImage = images.celebrate[Math.floor(Math.random() * images.celebrate.length)];
-        console.log(randomImage);
         await embed.setImage(randomImage);
-        console.log(embed);
 
         return embed;
     }
