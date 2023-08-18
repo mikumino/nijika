@@ -1,16 +1,19 @@
 const { SlashCommandBuilder } = require('discord.js');
+const Log = require('../../models/Log');
+const Source = require('../../models/Source');
+const embedEntryLog = require('../../modules/embedEntryLog');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('qonetime')
         .setDescription('Quick log one-time sources')
         .addStringOption(option =>
-            option.setName('source')
-                .setDescription('Source to log')
+            option.setName('name')
+                .setDescription('Name of source to log')
                 .setAutocomplete(false)
                 .setRequired(true))
         .addStringOption(option =>
-            option.setName('sourcetype')
+            option.setName('type')
                 .setDescription('Source type')
                 .setRequired(true)
                 .addChoices(
@@ -32,8 +35,27 @@ module.exports = {
                         .setDescription('Description for source')
                         .setRequired(false)),
     async execute(interaction) {
-        await interaction.reply({ content:
-            `${interaction.options.getString('source')},${interaction.options.getString('sourcetype')}, ${interaction.options.getString('descriptiopn')}, ${interaction.options.getInteger('duration')}`
-        });
+        const sourceName = interaction.options.getString('name');
+        const sourceType = interaction.options.getString('type');
+        const duration = interaction.options.getInteger('duration');
+        let description = interaction.options.getString('description');
+
+        // Validate inputs
+        // Checks that source exists and belongs to user
+        if (duration < 1) {
+            await interaction.reply({ content: 'Invalid duration. Please try again.' });
+            return;
+        }
+
+        if (!description) {
+            description = '';
+        }
+
+        const source = await Source.create({ sourceName: sourceName, sourceDescription: description, sourceType: sourceType, userId: interaction.user.id, oneTime: true, totalDuration: duration, status: 'Completed' });
+
+        const log = await Log.createLog(source.sourceId, interaction.user.id, duration);
+        const embed = embedEntryLog.execute(log, source, interaction);
+
+        await interaction.reply({ embeds: [embed] });
     }
 }
