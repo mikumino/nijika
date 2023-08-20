@@ -204,7 +204,7 @@ module.exports = {
             await generateChart(labels, data, range);
             const image = new AttachmentBuilder(__dirname + '/chart.png');
             
-            await interaction.reply({  files: [image], ephemeral: true });
+            await interaction.reply({  files: [image] });
 
             fs.unlinkSync(__dirname + '/chart.png');
         } catch (error) {
