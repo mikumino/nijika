@@ -21,6 +21,12 @@ npm install
 
 Fill appropriate fields in `example-config.json` and rename it to `config.json`. 
 
+Deploy the commands with:
+
+```
+node deploy-commands.js
+```
+
 You can then start the bot with:
 
 ```
