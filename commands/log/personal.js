@@ -17,7 +17,7 @@ module.exports = {
                 .addChoices(
                     { name: 'Weekly', value: 'weekly' },    // by day
                     { name: 'Monthly', value: 'monthly' },  // by day
-                    { name: 'Yearly', value: 'yearly' },    // by month
+                    // { name: 'Yearly', value: 'yearly' },    // by month
                 )),
     async execute(interaction) {
         function getDateRange(range) {
@@ -35,7 +35,7 @@ module.exports = {
                     startDate.setDate(1);
                     startDate.setHours(0, 0, 0, 0);
                     break;
-                case 'yearly':
+                case 'yearly':  // not implemented yet
                     startDate = new Date();
                     startDate.setMonth(0);
                     startDate.setDate(1);
