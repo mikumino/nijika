@@ -75,7 +75,7 @@ module.exports = {
 
             // fill labels with dates from startDate to endDate
             let date = new Date(startDate.getTime() - (startDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
-            while (date <= endDate.toISOString().split('T')[0]) {
+            while (date < endDate.toISOString().split('T')[0]) {
                 labels.push(date);
                 date = new Date(new Date(date).getTime() + (24 * 60 * 60 * 1000)).toISOString().split('T')[0];
             }
