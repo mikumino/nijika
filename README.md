@@ -48,9 +48,9 @@ node index.js
 
 ### 📊 Statistics
 - Generate graphs of your immersion time
-- Organize by day, week, or month
+- Organize by week or month
 
-![Preview](https://cdn.discordapp.com/attachments/1134330884535894208/1141569219964715119/Screenshot_215.png)
+![Preview](https://cdn.discordapp.com/attachments/520407476441448478/1142681259437457508/chart.png)
 
 ### 🏃 Quick Logging
 - Log media with a single command
