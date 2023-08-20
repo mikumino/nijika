@@ -67,7 +67,7 @@ module.exports = {
             return logs;
         }
 
-        function cleanLogs(logs, range) {
+        function processLogs(logs, range) {
             const { startDate, endDate } = getDateRange(range);
                       
             let labels = [];
@@ -201,7 +201,7 @@ module.exports = {
         try {
             const range = interaction.options.getString('range') || 'monthly';
             const logs = await getLogs(interaction.user.id, range);
-            const { labels, data } = cleanLogs(logs, range);
+            const { labels, data } = processLogs(logs, range);
             await generateChart(labels, data, range);
             const image = new AttachmentBuilder(__dirname + '/chart.png');
             
