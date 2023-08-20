@@ -23,6 +23,7 @@ module.exports = {
         function getDateRange(range) {
             let startDate;
             let endDate = new Date();   // today
+            endDate.setHours(23, 59, 59, 999);  // set to end of day
 
             switch (range) {
                 case 'weekly':
