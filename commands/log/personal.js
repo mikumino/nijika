@@ -154,6 +154,7 @@ module.exports = {
 
         async function generateChart(labels, data, range) {
             const chart = new QuickChart();
+            chart.setDevicePixelRatio(4.0); // too much? lol
             chart.setConfig({
                 type: 'bar',
                 data: {
