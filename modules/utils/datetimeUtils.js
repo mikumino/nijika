@@ -8,7 +8,8 @@ exports.toHoursMins = (duration) => {
 }
 
 // Given hours and minutes, return in format "X hours and Y minutes"
-exports.toHoursMinsFullString = (hours, mins) => {
+exports.toHoursMinsFullString = (duration) => {
+    let { hours, mins } = this.toHoursMins(duration);
     if (hours == 0) {
         return `${mins} minutes`;
     }
@@ -21,6 +22,7 @@ exports.toHoursMinsFullString = (hours, mins) => {
 }
 
 // Given hours and minutes, return in format "Xh Ym"
-exports.toHoursMinsShortString = (hours, mins) => {
+exports.toHoursMinsShortString = (duration) => {
+    let { hours, mins } = this.toHoursMins(duration);
     return `${hours}h ${mins}m`;
 }

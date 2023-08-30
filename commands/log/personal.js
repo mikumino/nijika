@@ -4,7 +4,7 @@ const { Op } = require('sequelize');
 const Log = require('../../models/Log');
 const Source = require('../../models/Source');
 const fs = require('node:fs');
-const hoursMins = require('../../utils/datetimeUtils');
+const datetimeUtils = require('../../modules/utils/datetimeUtils');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -216,12 +216,18 @@ module.exports = {
                 times[log.Source.sourceType] += log.duration;
             });
 
-            // Create embed
             const embed = new EmbedBuilder()
                 .setTitle(`${interaction.user.username}'s ${range} overview`)
-                .setDescription(`Total time: ${logs.reduce((total, log) => total + log.duration, 0)} minutes`)
+                .setDescription(`Total time: ${datetimeUtils.toHoursMinsShortString(logs.reduce((total, log) => total + log.duration, 0))}`)
+                .setThumbnail(interaction.user.avatarURL())
+                .setColor('#ffe17e')
+            
+            Object.keys(times).forEach(sourceType => {
+                embed.addFields({ name: sourceType, value: datetimeUtils.toHoursMinsShortString(times[sourceType]), inline: true });
+            });
+            
+            await interaction.reply({ embeds: [embed], ephemeral: true });
 
-            await interaction.reply({  files: [image] });
 
             fs.unlinkSync(__dirname + '/chart.png');
         } catch (error) {
