@@ -205,7 +205,7 @@ module.exports = {
             const logs = await getLogs(interaction.user.id, range);
             const { labels, data } = processLogs(logs, range);
             await generateChart(labels, data, range);
-            const image = new AttachmentBuilder(__dirname + '/chart.png');
+            const image = new AttachmentBuilder(__dirname+'/chart.png');
             
             // Calculate times for each source type within logs
             let times = {};
@@ -221,12 +221,13 @@ module.exports = {
                 .setDescription(`Total time: ${datetimeUtils.toHoursMinsShortString(logs.reduce((total, log) => total + log.duration, 0))}`)
                 .setThumbnail(interaction.user.avatarURL())
                 .setColor('#ffe17e')
+                .setImage('attachment://chart.png')
             
             Object.keys(times).forEach(sourceType => {
                 embed.addFields({ name: sourceType, value: datetimeUtils.toHoursMinsShortString(times[sourceType]), inline: true });
             });
             
-            await interaction.reply({ embeds: [embed], ephemeral: true });
+            await interaction.reply({ embeds: [embed], files: [image] });
 
 
             fs.unlinkSync(__dirname + '/chart.png');
