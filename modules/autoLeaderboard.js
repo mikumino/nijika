@@ -48,6 +48,7 @@ async function start(channel) {
 
 function stop() {
     dailyJob.stop();
+    monthlyJob.stop();
 }
 
 async function forceSend(channel) {

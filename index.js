@@ -1,7 +1,7 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
-const { token, dailyLeaderboard, logChannelId } = require('./config.json');
+const { token, autoLeaderboard, logChannelId } = require('./config.json');
 const sequelize = require('./database');
 const User = require('./models/User'); // idk if these are where they should be but they work
 const Source = require('./models/Source');
@@ -57,10 +57,10 @@ for (const file of eventFiles) {
 // log in
 client.login(token);
 
-// start daily leaderboard
+// start auto leaderboard
 client.once(Events.ClientReady, async () => {
-    if (dailyLeaderboard && logChannelId !== "") {
+    if (autoLeaderboard && logChannelId !== "") {
         const channel = await client.channels.fetch(logChannelId);
-        require('./modules/dailyLeaderboard').start(channel);
+        require('./modules/autoLeaderboard').start(channel);
     }
 });
