@@ -9,15 +9,18 @@ exports.toHoursMins = (duration) => {
 
 // Given hours and minutes, return in format "X hours and Y minutes"
 exports.toHoursMinsFullString = (hours, mins) => {
-    let hoursMinsString = "";
     if (hours == 0) {
-        hoursMinsString = `${mins} minutes`;
+        return `${mins} minutes`;
     }
     else if (hours == 1) {
-        hoursMinsString = `${hours} hour and ${mins} minutes`;
+        return `${hours} hour and ${mins} minutes`;
     }
     else {
-        hoursMinsString = `${hours} hours and ${mins} minutes`;
+        return `${hours} hours and ${mins} minutes`;
     }
-    return hoursMinsString;
+}
+
+// Given hours and minutes, return in format "Xh Ym"
+exports.toHoursMinsShortString = (hours, mins) => {
+    return `${hours}h ${mins}m`;
 }
