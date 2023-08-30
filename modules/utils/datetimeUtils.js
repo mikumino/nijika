@@ -6,3 +6,18 @@ exports.toHoursMins = (duration) => {
     let mins = duration % 60;
     return { hours, mins };
 }
+
+// Given hours and minutes, return in format "X hours and Y minutes"
+exports.toHoursMinsFullString = (hours, mins) => {
+    let hoursMinsString = "";
+    if (hours == 0) {
+        hoursMinsString = `${mins} minutes`;
+    }
+    else if (hours == 1) {
+        hoursMinsString = `${hours} hour and ${mins} minutes`;
+    }
+    else {
+        hoursMinsString = `${hours} hours and ${mins} minutes`;
+    }
+    return hoursMinsString;
+}

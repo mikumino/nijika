@@ -1,9 +1,10 @@
-const { SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
+const { SlashCommandBuilder, AttachmentBuilder, EmbedBuilder } = require('discord.js');
 const QuickChart = require('quickchart-js');
 const { Op } = require('sequelize');
 const Log = require('../../models/Log');
 const Source = require('../../models/Source');
 const fs = require('node:fs');
+const hoursMins = require('../../utils/datetimeUtils');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -206,6 +207,20 @@ module.exports = {
             await generateChart(labels, data, range);
             const image = new AttachmentBuilder(__dirname + '/chart.png');
             
+            // Calculate times for each source type within logs
+            let times = {};
+            logs.forEach(log => {
+                if (!times[log.Source.sourceType]) {
+                    times[log.Source.sourceType] = 0;
+                }
+                times[log.Source.sourceType] += log.duration;
+            });
+
+            // Create embed
+            const embed = new EmbedBuilder()
+                .setTitle(`${interaction.user.username}'s ${range} overview`)
+                .setDescription(`Total time: ${logs.reduce((total, log) => total + log.duration, 0)} minutes`)
+
             await interaction.reply({  files: [image] });
 
             fs.unlinkSync(__dirname + '/chart.png');
