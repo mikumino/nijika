@@ -1,10 +1,20 @@
 const { SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder } = require('discord.js');
 const createLeaderboard = require('../../modules/createLeaderboard');
+const datetimeUtils = require('../../modules/utils/datetimeUtils');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('leaderboard')
-        .setDescription('Displays a leaderboard.'),
+        .setDescription('Displays a leaderboard.')
+        .addStringOption(option => option
+            .setName('range')
+            .setDescription('The date range to display the leaderboard for (default: monthly)')
+            .setRequired(false)
+            .addChoices(
+                { name: 'Daily', value: 'daily' },
+                { name: 'Weekly', value: 'weekly' },
+                { name: 'Monthly', value: 'monthly' },
+            )),
     async execute(interaction) {
         // Create select menu
         const selectMenu = new StringSelectMenuBuilder()
@@ -24,20 +34,12 @@ module.exports = {
         
         const selectRow = new ActionRowBuilder().addComponents(selectMenu);
 
-        // Default to monthly (start of current month to end of current month)
-        let startDate = new Date();
-        startDate.setDate(1);
-        startDate.setHours(0, 0, 0, 0);
-        let endDate = new Date();
-        endDate.setMonth(endDate.getMonth() + 1);
-        endDate.setDate(0);
-        endDate.setHours(23, 59, 59, 999);
-
-        // init embed with monthly leaderboard
+        const range = interaction.options.getString('range') || 'monthly';
+        let { startDate, endDate } = datetimeUtils.dateRanges[range]();
         let embed = await createLeaderboard.create(interaction, startDate, endDate);
 
         // set title
-        embed.setTitle('Monthly Leaderboard 🏆');
+        embed.setTitle(`${range.charAt(0).toUpperCase() + range.slice(1)} Leaderboard 🏆`);
 
         const response = await interaction.reply({ embeds: [embed], components: [selectRow] });
 
@@ -46,35 +48,10 @@ module.exports = {
         const collector = response.createMessageComponentCollector({ filter, time: 60000 });
 
         collector.on('collect', async i => {
-            if (i.values[0] === 'daily') {
-                startDate = new Date();
-                startDate.setHours(0, 0, 0, 0);
-                endDate = new Date();
-                endDate.setHours(23, 59, 59, 999);
-                embed = await createLeaderboard.create(i, startDate, endDate);
-                embed.setTitle('Daily Leaderboard 🏆');
-            }
-            else if (i.values[0] === 'weekly') {
-                startDate = new Date();
-                startDate.setDate(startDate.getDate() - startDate.getDay());
-                startDate.setHours(0, 0, 0, 0);
-                endDate = new Date();
-                endDate.setDate(endDate.getDate() + (6 - endDate.getDay()));
-                endDate.setHours(23, 59, 59, 999);
-                embed = await createLeaderboard.create(i, startDate, endDate);
-                embed.setTitle('Weekly Leaderboard 🏆');
-            }
-            else if (i.values[0] === 'monthly') {
-                startDate = new Date();
-                startDate.setDate(1);
-                startDate.setHours(0, 0, 0, 0);
-                endDate = new Date();
-                endDate.setMonth(endDate.getMonth() + 1);
-                endDate.setDate(0);
-                endDate.setHours(23, 59, 59, 999);
-                embed = await createLeaderboard.create(i, startDate, endDate);
-                embed.setTitle('Monthly Leaderboard 🏆');
-            }
+            // yoink dates
+            let { startDate, endDate } = datetimeUtils.dateRanges[i.values[0]]();
+            embed = await createLeaderboard.create(i, startDate, endDate);
+            embed.setTitle(`${i.values[0].charAt(0).toUpperCase() + i.values[0].slice(1)} Leaderboard 🏆`);
             await i.update({ embeds: [embed] });
         });
     }
