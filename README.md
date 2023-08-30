@@ -46,9 +46,9 @@ node index.js
 
 ![Preview](https://cdn.discordapp.com/attachments/860052392715616266/1141566261877297182/Screenshot_211.png)
 
-### 📚 Daily Summaries
-- See time and point breakdown for the day
-- Automatic daily server-wide summaries with /toggledaily
+### 📚 Auto Summaries
+- See time and point breakdown for the day and month
+- Automatic daily server-wide summaries with /toggleautoleaderboard
 
 ![Preview](https://cdn.discordapp.com/attachments/860052392715616266/1135459698221518858/Screenshot_209.png)
 
