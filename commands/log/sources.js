@@ -93,7 +93,7 @@ module.exports = {
             // Clear description
             description = 'Sources:\n';
 
-            for (let i = sourceIndex; i < 10; i++) {
+            for (let i = sourceIndex; i < sourceIndex+10; i++) {
                 if (sourceList[i]) {
                     description += `‣ ${sourceList[i].sourceName} / ${sourceList[i].sourceType} / ${sourceList[i].status}\n`;
                 }
