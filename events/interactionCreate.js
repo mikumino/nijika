@@ -5,11 +5,6 @@ module.exports = {
 	async execute(interaction) {
         const command = interaction.client.commands.get(interaction.commandName);
 
-        if (!command) {
-            console.error(`No command matching ${interaction.commandName} was found.`);
-            return;
-        }
-
         try {
             if (interaction.isAutocomplete()) {
                 await command.autocomplete(interaction);
