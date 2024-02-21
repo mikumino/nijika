@@ -11,9 +11,6 @@ module.exports = {
         // Get all sources for user
         const allSources = await Source.findAll({ where: { userId: interaction.user.id } });
 
-        // Sort allSources by creation date (newest first)
-        allSources.sort((a, b) => b.createdAt - a.createdAt);
-
         let inProgressSources = [];
         let pausedSources = [];
         let completedSources = [];
