@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const Source = require('../../models/Source');
 const { toHoursMins } = require('../../modules/utils/datetimeUtils');
+const { isAniListUrl, getMediaId, getCoverImage } = require('../../modules/utils/anilistUtils');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -24,13 +25,18 @@ module.exports = {
     async execute(interaction) {
         const sourceId = interaction.options.getString('source');
         const source = await Source.findOne({ where: {sourceId: sourceId, userId: interaction.user.id} });
+        let coverImage = null;
         if (!source) {
             await interaction.reply({ content: 'invalid source. Please try again.' });
             return;
         }
-        console.log(source);
+        // console.log(source);
         if (source.sourceDescription == "") {
             source.sourceDescription = "No description.";
+        }
+        if (isAniListUrl(source.sourceDescription)) {
+            const mediaId = getMediaId(source.sourceDescription);
+            coverImage = await getCoverImage(mediaId);
         }
         const durationHoursMins = toHoursMins(source.totalDuration);
         const embed = new EmbedBuilder()
@@ -43,6 +49,9 @@ module.exports = {
             )
             .setThumbnail(interaction.user.avatarURL())
             .setColor('#ffe17e');
+        if (coverImage) {
+            embed.setImage(coverImage);
+        }
         await interaction.reply({ embeds: [embed] });
     },
 }
