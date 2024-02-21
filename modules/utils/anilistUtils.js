@@ -12,7 +12,6 @@ exports.isAniListUrl = (url) => {
 
 // Given an AniList media URL, return the media ID
 exports.getMediaId = (url) => {
-    console.log(url.split("/")[4]); 
     return url.split("/")[4];
 }
 
