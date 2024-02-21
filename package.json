@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/mikumino/mukou#readme",
   "dependencies": {
+    "axios": "^1.6.7",
     "discord.js": "^14.11.0",
     "node-cron": "^3.0.2",
     "quickchart-js": "^3.1.3",
