@@ -1,11 +1,18 @@
 const { EmbedBuilder } = require('discord.js');
 const Log = require('../models/Log');
 const { toHoursMins } = require('../modules/utils/datetimeUtils');
+const { isAniListUrl, getMediaId, getCoverImage } = require('../modules/utils/anilistUtils');
+
 
 module.exports = {
-    execute(log, source, interaction) {
+    async execute(log, source, interaction) {
+        let coverImage = null;
         if (source.sourceDescription == "") {
             source.sourceDescription = "No description.";
+        }
+        if (isAniListUrl(source.sourceDescription)) {
+            const mediaId = getMediaId(source.sourceDescription);
+            coverImage = await getCoverImage(mediaId);
         }
         // Hours mins string
         const hoursMins = toHoursMins(log.duration);
@@ -27,6 +34,7 @@ module.exports = {
                 { name: 'Experience Points', value: `${Log.calcXP(log.duration)}`, inline: false },
             )
             .setThumbnail(interaction.user.avatarURL())
+            .setImage(coverImage)
             .setColor('#ffe17e');
     }
 }

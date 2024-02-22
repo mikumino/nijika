@@ -43,7 +43,7 @@ module.exports = {
         }
 
         const log = await Log.createLog(sourceId, interaction.user.id, duration);
-        const embed = embedEntryLog.execute(log, source, interaction);
+        const embed = await embedEntryLog.execute(log, source, interaction);
 
         await interaction.reply({ embeds: [embed] });
         

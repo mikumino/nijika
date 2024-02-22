@@ -44,7 +44,7 @@ module.exports = {
 
                 const source = await Source.findOne({ where: { sourceId: sourceId } });
 
-                const embed = embedEntryLog.execute(log, source, logConfirmation);
+                const embed = await embedEntryLog.execute(log, source, logConfirmation);
 
                 logConfirmation.update({ embeds: [embed], components: [] });
             }

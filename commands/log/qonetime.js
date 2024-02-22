@@ -54,7 +54,7 @@ module.exports = {
         const source = await Source.create({ sourceName: sourceName, sourceDescription: description, sourceType: sourceType, userId: interaction.user.id, oneTime: true, totalDuration: duration, status: 'Completed' });
 
         const log = await Log.createLog(source.sourceId, interaction.user.id, duration);
-        const embed = embedEntryLog.execute(log, source, interaction);
+        const embed = await embedEntryLog.execute(log, source, interaction);
 
         await interaction.reply({ embeds: [embed] });
     }

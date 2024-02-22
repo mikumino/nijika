@@ -66,7 +66,7 @@ module.exports = {
                 const log = await Log.createLog(source.sourceId, user.userId, duration);
 
                 // Send confirmation
-                const embed = embedEntryLog.execute(log, source, typeConfirmation);
+                const embed = await embedEntryLog.execute(log, source, typeConfirmation);
 
                 oneTimeConfirmation.update({ embeds: [embed], components: [] });
             }
