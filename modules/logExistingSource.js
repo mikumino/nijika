@@ -46,7 +46,7 @@ module.exports = {
 
                 const embed = await embedEntryLog.execute(log, source, logConfirmation);
 
-                logConfirmation.update({ embeds: [embed], components: [] });
+                await logConfirmation.update({ embeds: [embed], components: [] });
             }
         } catch (error) {
             console.log(error);
