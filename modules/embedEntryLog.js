@@ -2,6 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const Log = require('../models/Log');
 const { toHoursMins } = require('../modules/utils/datetimeUtils');
 const { isAniListUrl, getMediaId, getCoverImage } = require('../modules/utils/anilistUtils');
+const { isVndbUrl, getVndbMediaId, getVndbCoverImage } = require('../modules/utils/vndbUtils');
 
 
 module.exports = {
@@ -13,6 +14,10 @@ module.exports = {
         if (isAniListUrl(source.sourceDescription)) {
             const mediaId = getMediaId(source.sourceDescription);
             coverImage = await getCoverImage(mediaId);
+        }
+        if (isVndbUrl(source.sourceDescription)) {
+            const mediaId = getVndbMediaId(source.sourceDescription);
+            coverImage = await getVndbCoverImage(mediaId);
         }
         // Hours mins string
         const hoursMins = toHoursMins(log.duration);
