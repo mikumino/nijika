@@ -42,7 +42,6 @@ module.exports = {
         if (isVndbUrl(source.sourceDescription)) {
             const mediaId = getVndbMediaId(source.sourceDescription);
             coverImage = await getVndbCoverImage(mediaId);
-            console.log(coverImage);
         }
         const durationHoursMins = toHoursMins(source.totalDuration);
         const embed = new EmbedBuilder()

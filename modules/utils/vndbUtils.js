@@ -1,6 +1,6 @@
 // Util file with VNDB-related functions
 const axios = require('axios');
-const apiUrl = 'https://vndb.org/api/kana/vn';
+const apiUrl = 'https://api.vndb.org/kana/vn';
 
 // Check if a given string is a valid VNDB media URL
 exports.isVndbUrl = (url) => {
@@ -17,21 +17,17 @@ exports.getVndbMediaId = (url) => {
 
 // Given a VNDB media ID, return cover image URL
 exports.getVndbCoverImage = async (id) => {
-    const query = `
-        {
-            "filters": ["id", "=", ${id}],
-            "fields": "image.url"
-        }
-    `;
-    const variables = {
-        id: String(id)
-    }
     try {
         const res = await axios.post(apiUrl, {
-            query,
-            variables
+            'filters': ['id', '=', id],
+            'fields': 'image.url',
+        },
+        {
+            headers: {
+                'Content-Type': 'application/json',
+            }
         })
-        return res.data.image.url
+        return res.data.results[0].image.url;
     } catch (err) {
         console.error(err);
         console.log('no');
