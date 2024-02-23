@@ -2,6 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const Source = require('../../models/Source');
 const { toHoursMins } = require('../../modules/utils/datetimeUtils');
 const { isAniListUrl, getMediaId, getCoverImage } = require('../../modules/utils/anilistUtils');
+const { isVndbUrl, getVndbMediaId, getVndbCoverImage } = require('../../modules/utils/vndbUtils');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -37,6 +38,11 @@ module.exports = {
         if (isAniListUrl(source.sourceDescription)) {
             const mediaId = getMediaId(source.sourceDescription);
             coverImage = await getCoverImage(mediaId);
+        }
+        if (isVndbUrl(source.sourceDescription)) {
+            const mediaId = getVndbMediaId(source.sourceDescription);
+            coverImage = await getVndbCoverImage(mediaId);
+            console.log(coverImage);
         }
         const durationHoursMins = toHoursMins(source.totalDuration);
         const embed = new EmbedBuilder()
