@@ -2,7 +2,7 @@
 
 A personal solution for my friend's server. Log immersion, get experience points, level up, and share your immersion progress with friends. Heavily inspired by TheMoeWay's immersion bot.
 
-![Preview](https://cdn.discordapp.com/attachments/860052392715616266/1135459697760153630/Screenshot_210.png)
+![Preview](https://cdn.discordapp.com/attachments/1134330884535894208/1211202040055988286/Screenshot_5.png?ex=65ed56cd&is=65dae1cd&hm=5644d33215728022c0eb075d6df727e640aa02c3d9058c171d5ed6249dc2913d&)
 
 ## 📃 Requirements
 
