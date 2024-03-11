@@ -6,7 +6,7 @@ let dailyJob, monthlyJob;
 
 async function start(channel) {
     // daily job
-    dailyJob = cron.schedule('0 2 * * *', async () => {
+    dailyJob = cron.schedule('0 0 * * *', async () => {
         try {
             const randomImage = images.rest[Math.floor(Math.random() * images.rest.length)];
             console.log('Sending daily message.');
@@ -26,7 +26,7 @@ async function start(channel) {
         }
     });
     // monthly job
-    monthlyJob = cron.schedule('0 2 1 * *', async () => {
+    monthlyJob = cron.schedule('0 0 1 * *', async () => {
         try {
             const randomImage = images.rest[Math.floor(Math.random() * images.rest.length)];
             console.log('Sending monthly message.');
