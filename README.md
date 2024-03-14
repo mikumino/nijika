@@ -2,7 +2,7 @@
 
 A personal solution for my friend's server. Log immersion, get experience points, level up, and share your immersion progress with friends. Heavily inspired by TheMoeWay's immersion bot.
 
-![Preview](https://cdn.discordapp.com/attachments/1134330884535894208/1211202040055988286/Screenshot_5.png?ex=65ed56cd&is=65dae1cd&hm=5644d33215728022c0eb075d6df727e640aa02c3d9058c171d5ed6249dc2913d&)
+![Preview](gh-images/qlog.png)
 
 ## 📃 Requirements
 
@@ -44,35 +44,35 @@ node index.js
 - See rankings based on immersion time
 - Sort by day, week, or month
 
-![Preview](https://cdn.discordapp.com/attachments/860052392715616266/1141566261877297182/Screenshot_211.png)
+![Preview](gh-images/leaderboard.png)
 
 ### 📚 Auto Summaries
 - See time and point breakdown for the day and month
 - Automatic daily server-wide summaries with /toggleautoleaderboard
 
-![Preview](https://cdn.discordapp.com/attachments/860052392715616266/1135459698221518858/Screenshot_209.png)
+![Preview](gh-images/summary.png)
 
 ### 📊 Statistics
 - Generate graphs of your immersion time
 - Organize by week or month
 
-![Preview](https://cdn.discordapp.com/attachments/520407476441448478/1142681259437457508/chart.png)
+![Preview](gh-images/personal.png)
 
 ### 🏃 Quick Logging
 - Log media with a single command
 - Autocompletes based on your sources
 
-![Preview](https://cdn.discordapp.com/attachments/1125497331681341571/1141566889840095312/Screenshot_214.png)
+![Preview](gh-images/qlog.png)
 
 ### 📝 Sources
 - See all your sources
 - Add, remove, and edit sources
 
-![Preview](https://cdn.discordapp.com/attachments/860052392715616266/1141566262154104942/Screenshot_212.png)
+![Preview](gh-images/sources.png)
 
 ### ℹ️ Source Info
 - See information about a source
 
-![Preview](https://cdn.discordapp.com/attachments/860052392715616266/1141566262594515084/Screenshot_213.png)
+![Preview](gh-images/sourceinfo.png)
 
 
