@@ -20,7 +20,11 @@ module.exports = {
 
         // Get all sources from userId that are not completed nor one time
         const sources = await Source.findAll({ where: { userId: interaction.user.id, status: "In Progress", oneTime: false } });
-        // console.log(sources);
+        // TODO: Make this paginated in the future so that the user doesn't just lose any source past the first page LOL
+        sources.sort((a, b) => b.createdAt - a.createdAt);
+        if (sources.length > 22) {
+            sources.splice(22);
+        }
 
         const select_source = new StringSelectMenuBuilder()
             .setCustomId('Title')

@@ -22,6 +22,12 @@ module.exports = {
             .setCustomId('source_resume')
             .setPlaceholder('Make a selection!');
         
+        // TODO: check log.js for more info
+        sources.sort((a, b) => b.createdAt - a.createdAt);
+        if (sources.length > 22) {
+            sources.splice(22);
+        }
+
         sources.forEach(source => {
             select_source.addOptions(
                 new StringSelectMenuOptionBuilder()
